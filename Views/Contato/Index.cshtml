@@ -7,6 +7,7 @@
         <a class="btn btn-primary" asp-controller="Contato" asp-action="Criar" role="button">Adicionar novo contato</a>
     </div>
         <br />
+    
 
     @if (TempData["MensagemSucesso"] != null)
         {
@@ -26,7 +27,7 @@
     
     <h1 class="display-4">Listagem de contatos</h1>
 
-    <table class="table">
+    <table class="table" id="table-contatos">
         <thead>
             <tr>
                 <th scope="col">#</th>
