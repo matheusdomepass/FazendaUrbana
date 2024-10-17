@@ -1,5 +1,5 @@
-using ControleContratos.Data;
-using ControleContratos.Repositorio;
+using FazendaUrbana.Data;
+using FazendaUrbana.Repositorio;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

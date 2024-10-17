@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ControleContratos.Controllers
+namespace FazendaUrbana.Controllers
 {
     public class UsuarioController : Controller
     {

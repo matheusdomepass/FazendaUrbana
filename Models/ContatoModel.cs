@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ControleContratos.Models
+namespace FazendaUrbana.Models
 {
     public class ContatoModel
     {

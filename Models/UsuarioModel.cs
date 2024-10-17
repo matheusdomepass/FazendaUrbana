@@ -1,6 +1,6 @@
-﻿using ControleContratos.Enums;
+﻿using FazendaUrbana.Enums;
 
-namespace ControleContratos.Models
+namespace FazendaUrbana.Models
 {
     public class UsuarioModel
     {

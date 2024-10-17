@@ -1,8 +1,8 @@
-using ControleContratos.Models;
+using FazendaUrbana.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace ControleContratos.Controllers
+namespace FazendaUrbana.Controllers
 {
     public class HomeController : Controller
     {       

@@ -1,8 +1,8 @@
-﻿using ControleContratos.Models;
-using ControleContratos.Repositorio;
+﻿using FazendaUrbana.Models;
+using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ControleContratos.Controllers
+namespace FazendaUrbana.Controllers
 {
     public class ContatoController : Controller
     {

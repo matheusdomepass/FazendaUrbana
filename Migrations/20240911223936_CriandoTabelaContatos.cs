@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ControleContratos.Migrations
+namespace FazendaUrbana.Migrations
 {
     /// <inheritdoc />
     public partial class CriandoTabelaContatos : Migration

@@ -1,6 +1,6 @@
-﻿using ControleContratos.Models;
+﻿using FazendaUrbana.Models;
 
-namespace ControleContratos.Repositorio
+namespace FazendaUrbana.Repositorio
 {
     public interface IContatoRepositorio
     {

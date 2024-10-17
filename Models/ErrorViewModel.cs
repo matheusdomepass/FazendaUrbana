@@ -1,4 +1,4 @@
-namespace ControleContratos.Models
+namespace FazendaUrbana.Models
 {
     public class ErrorViewModel
     {

@@ -1,7 +1,7 @@
-﻿using ControleContratos.Models;
+﻿using FazendaUrbana.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ControleContratos.Data
+namespace FazendaUrbana.Data
 {
     public class BancoContext : DbContext
     {

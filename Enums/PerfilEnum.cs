@@ -1,4 +1,4 @@
-﻿namespace ControleContratos.Enums
+﻿namespace FazendaUrbana.Enums
 {
     public enum PerfilEnum
     {

@@ -1,7 +1,7 @@
-﻿using ControleContratos.Data;
-using ControleContratos.Models;
+﻿using FazendaUrbana.Data;
+using FazendaUrbana.Models;
 
-namespace ControleContratos.Repositorio
+namespace FazendaUrbana.Repositorio
 {
     public class ContatoRepositorio : IContatoRepositorio
     {
