@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FazendaUrbana.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20241017194501_CriacaoTabelaUsuario")]
+    [Migration("20241018015549_CriacaoTabelaUsuario")]
     partial class CriacaoTabelaUsuario
     {
         /// <inheritdoc />
