@@ -13,7 +13,7 @@ namespace FazendaUrbana.Controllers
         }
         public IActionResult Index()
         {
-            List<ContatoModel> contatos = _contatoRepositorio.BuscarContatos();
+            List<ContatoModel> contatos = _contatoRepositorio.BuscarTodos();
             return View(contatos);
         }
 

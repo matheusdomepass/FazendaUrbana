@@ -61,5 +61,10 @@ namespace FazendaUrbana.Repositorio
 
             return true;
         }
+
+        public List<ContatoModel> BuscarTodos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
