@@ -6,8 +6,7 @@
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
         <a class="btn btn-primary" asp-controller="Contato" asp-action="Criar" role="button">Adicionar novo contato</a>
     </div>
-        <br />
-    
+        <br />    
 
     @if (TempData["MensagemSucesso"] != null)
         {
@@ -55,6 +54,10 @@
                         </td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr class="add"><td valign="top" colspan="5">Nenhum usuario encontrado</td></tr>
             }
         </tbody>
     </table>

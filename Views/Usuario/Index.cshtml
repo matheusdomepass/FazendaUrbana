@@ -4,10 +4,9 @@
 }
 <div class="text-center">
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar novo usuário</a>
-        <br />
-
+        <a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar novo usuário</a>        
     </div>
+        <br />
 
     @if(TempData["MensagemSucesso"] != null)
     {
@@ -29,13 +28,16 @@
 
     <h1 class="display-4">Listagem de usuários</h1>
 
-    <table class="table-usuarios" class="display" style="width:100%">
+    <table class="table" id="table-usuarios">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Login</th>
+                <th scope="col">CPF</th>
+                <th scope="col">DataNascimento</th>
                 <th scope="col">Email</th>
+                <th scope="col">Perfil</th>
                 <th scope="col">Data de Cadastro</th>
                 <th scope="col"></th>
             </tr>
@@ -49,7 +51,10 @@
                         <th scope="row">@usuario.Id</th>
                         <td>@usuario.Nome</td>
                         <td>@usuario.Login</td>
+                        <td>@usuario.CPF</td>
+                        <td>@usuario.DataNascimento</td>
                         <td>@usuario.Email</td>
+                        <td>@(usuario.Perfil == FazendaUrbana.Enums.PerfilEnum.Admin ? "Administrador" : "Padrão")</td>
                         <td>@usuario.DataCadastro</td>
                         <td>
                             <div class="btn-group" role="group">

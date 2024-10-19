@@ -11,6 +11,10 @@ namespace FazendaUrbana.Repositorio
         {
             _bancoContext = bancoContext;
         }
+        public UsuarioModel BuscarPorLogin(string login)
+        {
+            return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
+        }
         public UsuarioModel ListarPorId(int id)
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
@@ -41,6 +45,8 @@ namespace FazendaUrbana.Repositorio
 
             usuarioDB.Nome = usuario.Nome;
             usuarioDB.Email = usuario.Email;
+            usuarioDB.CPF = usuario.CPF;
+            usuarioDB.DataNascimento = usuario.DataNascimento;
             usuarioDB.Login = usuario.Login;
             usuarioDB.Perfil = usuario.Perfil;
             usuarioDB.DataAtualizacao = DateTime.Now;
@@ -65,5 +71,6 @@ namespace FazendaUrbana.Repositorio
 
             return true;
         }
+
     }
 }

@@ -16,7 +16,6 @@ namespace FazendaUrbana.Controllers
             List<ContatoModel> contatos = _contatoRepositorio.BuscarTodos();
             return View(contatos);
         }
-
         public IActionResult Criar()
         {
             return View();
