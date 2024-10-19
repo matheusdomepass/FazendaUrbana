@@ -14,7 +14,7 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Contatos.FirstOrDefault(x => x.Id == id);
         }
-        public List<ContatoModel> BuscarContatos()
+        public List<ContatoModel> BuscarTodos()
         {
             return _bancoContext.Contatos.ToList();
         }
@@ -60,11 +60,6 @@ namespace FazendaUrbana.Repositorio
             _bancoContext.SaveChanges();
 
             return true;
-        }
-
-        public List<ContatoModel> BuscarTodos()
-        {
-            throw new NotImplementedException();
         }
     }
 }

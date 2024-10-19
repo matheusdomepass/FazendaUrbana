@@ -1,5 +1,6 @@
 ﻿using FazendaUrbana.Data;
 using FazendaUrbana.Models;
+using FazendaUrbana.Repositorio;
 
 namespace FazendaUrbana.Repositorio
 {
@@ -14,7 +15,7 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
         }
-        public List<UsuarioModel> BuscarUsuarios()
+        public List<UsuarioModel> BuscarTodos()
         {
             return _bancoContext.Usuarios.ToList();
         }
@@ -63,16 +64,6 @@ namespace FazendaUrbana.Repositorio
             _bancoContext.SaveChanges();
 
             return true;
-        }
-
-        public List<UsuarioModel> BuscarContatos()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<UsuarioModel> BuscarTodos()
-        {
-            throw new NotImplementedException();
         }
     }
 }

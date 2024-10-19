@@ -16,10 +16,6 @@ namespace FazendaUrbana.Controllers
             List<UsuarioModel> usuarios = _usuarioRepositorio.BuscarTodos();
             return View();
         }
-        public IActionResult Criar()
-        {
-            return View();
-        }
         [HttpPost]
         public IActionResult Criar(UsuarioModel usuario)
         {
