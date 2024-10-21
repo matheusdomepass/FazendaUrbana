@@ -1,4 +1,5 @@
 ﻿using FazendaUrbana.Enums;
+using FazendaUrbana.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace FazendaUrbana.Models
@@ -23,9 +24,14 @@ namespace FazendaUrbana.Models
         public string Senha { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
+
         public bool SenhaValida(string senha)
         {
-            return Senha == senha;
+            return Senha == senha.GerarHash();
+        }
+        public void SetSenhaHash()
+        {
+            Senha = Senha.GerarHash();
         }
     }
 }
