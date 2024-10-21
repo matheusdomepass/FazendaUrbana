@@ -1,9 +1,11 @@
-﻿using FazendaUrbana.Models;
+﻿using FazendaUrbana.Filters;
+using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FazendaUrbana.Controllers
 {
+    [PaginaAdmin]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;

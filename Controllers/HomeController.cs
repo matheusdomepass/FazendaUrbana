@@ -1,9 +1,11 @@
+using FazendaUrbana.Filters;
 using FazendaUrbana.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace FazendaUrbana.Controllers
 {
+    [PaginaUsuarioLogado]
     public class HomeController : Controller
     {       
         public IActionResult Index()

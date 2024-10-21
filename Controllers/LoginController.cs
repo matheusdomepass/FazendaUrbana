@@ -44,7 +44,7 @@ namespace FazendaUrbana.Controllers
                         if (usuario.SenhaValida(loginModel.Senha))
                         {
                             _sessao.CriarSessaoUsuario(usuario);
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index","Home");
                         }
 
                         TempData["MensagemErro"] = $"Senha inválida. Tente novamente.";
@@ -59,6 +59,5 @@ namespace FazendaUrbana.Controllers
                 return RedirectToAction("Index");
             }
         }
-
     }
 }

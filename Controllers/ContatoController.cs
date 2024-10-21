@@ -1,9 +1,11 @@
-﻿using FazendaUrbana.Models;
+﻿using FazendaUrbana.Filters;
+using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FazendaUrbana.Controllers
 {
+    [PaginaUsuarioLogado]
     public class ContatoController : Controller
     {
         private readonly IContatoRepositorio _contatoRepositorio;
