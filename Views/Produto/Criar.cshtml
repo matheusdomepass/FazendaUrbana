@@ -1,0 +1,58 @@
+﻿@model ProdutoModel
+@{
+    ViewData["Title"] = "Criar produto";
+}
+
+<div class="text-center">
+   
+    <h1 class="display-4">Cadastrar produto</h1>
+
+</div>
+
+<form asp-controller="Produto" asp-action="Criar" method="post">
+
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do produto">
+        @Html.ValidationMessageFor(x => x.Nome)
+    </div>   
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" asp-for="Descricao" class="form-control" placeholder="Digite a descrição do produto">
+        @Html.ValidationMessageFor(x => x.Descricao)
+    </div>
+    <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="text" id="moneyInput" asp-for="Valor" class="form-control" placeholder="R$ 0,00">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#moneyInput").maskMoney({
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false,
+                    affixesStay: true,
+                    precision: 2
+                });
+            });
+        </script>
+
+        @Html.ValidationMessageFor(x => x.Valor)
+    </div>
+
+    <div class="form-group">
+        <label for="quantidade">Quantidade</label>
+        <input type="number" asp-for="Quantidade" class="form-control" placeholder="Digite a quantidade do produto">
+        @Html.ValidationMessageFor(x => x.Quantidade)
+    </div>
+    <div class="form-group">
+        <label for="descricao">Categoria</label>
+        <input type="text" asp-for="Categoria" class="form-control" placeholder="Digite a categoria do produto">
+        @Html.ValidationMessageFor(x => x.Categoria)
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
+    <a class="btn btn-secondary btn-block" asp-controller="Produto" asp-action="Index" role="button">Voltar</a>
+</form>
+

@@ -66,14 +66,14 @@ namespace FazendaUrbana.Controllers
                 return RedirectToAction("Index");
             }
         }
-        [HttpPost] 
-        public IActionResult EnviarLink(RedefinirSenhaModel model)
+        [HttpPost]
+        public IActionResult EnviarLinkParaRedefinirSenha(RedefinirSenhaModel redefinirSenhaModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorEmailELogin(model.Email, model.Login);
+                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorEmailELogin(redefinirSenhaModel.Email, redefinirSenhaModel.Login);
 
                     if (usuario != null)
                     {
@@ -81,25 +81,28 @@ namespace FazendaUrbana.Controllers
                         string mensagem = $"Sua nova senha é: {novaSenha}";
 
                         bool emailEnviado = _email.Enviar(usuario.Email, "FutureTech - Nova Senha", mensagem);
+
                         if (emailEnviado)
                         {
                             _usuarioRepositorio.Atualizar(usuario);
-                            TempData["MensagemSucesso"] = $"Enviamos uma nova senha para seu email, verifique por favor.";
+                            TempData["MensagemSucesso"] = $"Enviamos para seu e-mail cadastrado uma nova senha.";
                         }
                         else
                         {
-                            TempData["MensagemErro"] = $"Não foi possivel enviar o e-mail. Tente novamente.";
+                            TempData["MensagemErro"] = $"Não conseguimos enviar e-mail. Por favor, tente novamente.";
                         }
-                        
+
                         return RedirectToAction("Index", "Login");
                     }
-                    TempData["MensagemErro"] = $"Redefinição de senha inválida. Tente novamente.";
+
+                    TempData["MensagemErro"] = $"Não conseguimos redefinir sua senha. Por favor, verifique os dados informados.";
                 }
+
                 return View("Index");
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos redefinir sua senha, tente novamente, detalhe do erro: {erro.Message}";
+                TempData["MensagemErro"] = $"Ops, não conseguimos redefinir sua senha, tente novamante, detalhe do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }

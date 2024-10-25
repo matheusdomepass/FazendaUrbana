@@ -44,6 +44,7 @@ namespace FazendaUrbana.Helper
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Erro ao enviar e-mail: {ex.Message}");
                 return false;
             }
         }
