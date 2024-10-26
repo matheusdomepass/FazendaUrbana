@@ -1,24 +1,25 @@
 ﻿@using FazendaUrbana.Enums
 @model ProdutoModel
 @{
-    ViewData["Title"] = "Criar produto";
+    ViewData["Title"] = "Editar produto";
 }
 
 <div class="text-center">
-   
-    <h1 class="display-4">Cadastrar produto</h1>
+
+    <h1 class="display-4">Editar produto</h1>
 
 </div>
 
-<form asp-controller="Produto" asp-action="Criar" method="post">
+<form asp-controller="Produto" asp-action="Alterar" method="post">
 
+    <input type="hidden" asp-for="Id" />
     <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do produto">
         @Html.ValidationMessageFor(x => x.Nome)
-    </div>   
+    </div>
     <div class="form-group">
-        <label for="descricao">Descrição</label>
+        <label for="text">Descrição</label>
         <input type="text" asp-for="Descricao" class="form-control" placeholder="Digite a descrição do produto">
         @Html.ValidationMessageFor(x => x.Descricao)
     </div>
@@ -42,7 +43,6 @@
 
         @Html.ValidationMessageFor(x => x.Valor)
     </div>
-
     <div class="form-group">
         <label for="quantidade">Quantidade</label>
         <input type="number" asp-for="Quantidade" class="form-control" placeholder="Digite a quantidade do produto">
@@ -58,7 +58,8 @@
         </select>
         @Html.ValidationMessageFor(x => x.Categoria)
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
-    <a class="btn btn-secondary btn-block" asp-controller="Produto" asp-action="Index" role="button">Voltar</a>
+    <button type="submit" class="btn btn-primary btn-block">Alterar</button>
+    <a class="btn btn-secondary btn-block" asp-controller="Cliente" asp-action="Index" role="button">Voltar</a>
+
 </form>
 
