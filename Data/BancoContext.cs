@@ -14,5 +14,7 @@ namespace FazendaUrbana.Data
         public DbSet<ProdutoModel> Produtos { get; set; }
         public DbSet<EnderecoModel> Enderecos { get; set; }
         public DbSet<FornecedorModel> Fornecedores { get; set; }
+        public DbSet<VendasModel> Vendas { get; set; }
+        public DbSet<TransacaoModel> Transacoes { get; set; }
     }
 }

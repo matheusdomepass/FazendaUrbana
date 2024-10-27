@@ -16,6 +16,7 @@ namespace FazendaUrbana.Controllers
             List<ProdutoModel> produtos = _produtoRepositorio.BuscarTodos();
             return View(produtos);
         }
+        
         public IActionResult Criar()
         {
             return View();
@@ -99,6 +100,7 @@ namespace FazendaUrbana.Controllers
                 return RedirectToAction("Index");
             }
         }
+        
     }
 }
 
