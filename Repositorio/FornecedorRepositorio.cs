@@ -1,5 +1,6 @@
 ﻿using FazendaUrbana.Data;
 using FazendaUrbana.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FazendaUrbana.Repositorio
 {
@@ -12,11 +13,11 @@ namespace FazendaUrbana.Repositorio
         }
         public FornecedorModel ListarPorId(int id)
         {
-            return _bancoContext.Fornecedores.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.Fornecedores.Include(c => c.Endereco).FirstOrDefault(x => x.Id == id);
         }
         public List<FornecedorModel> BuscarTodos()
         {
-            return _bancoContext.Fornecedores.ToList();
+            return _bancoContext.Fornecedores.Include(c => c.Endereco).ToList();
         }
 
         public FornecedorModel Adicionar(FornecedorModel fornecedor)

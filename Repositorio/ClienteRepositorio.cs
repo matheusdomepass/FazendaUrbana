@@ -1,5 +1,6 @@
 ﻿using FazendaUrbana.Data;
 using FazendaUrbana.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FazendaUrbana.Repositorio
 {
@@ -12,11 +13,11 @@ namespace FazendaUrbana.Repositorio
         }
         public ClienteModel ListarPorId(int id)
         {
-            return _bancoContext.Clientes.FirstOrDefault(x => x.Id == id);
+            return _bancoContext.Clientes.Include(c => c.Endereco).FirstOrDefault(x => x.Id == id);
         }
         public List<ClienteModel> BuscarTodos()
         {
-            return _bancoContext.Clientes.ToList();
+            return _bancoContext.Clientes.Include(c => c.Endereco).ToList();
         }
 
         public ClienteModel Adicionar(ClienteModel cliente)

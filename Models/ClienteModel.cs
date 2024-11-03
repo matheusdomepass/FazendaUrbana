@@ -14,8 +14,7 @@ namespace FazendaUrbana.Models
         [Phone(ErrorMessage = "O celular informado não é válido!")]
         public string Celular { get; set; }
         [Required(ErrorMessage = "Digite o CPF ou CPNJ do cliente")]
-        public string CPF_CNPJ { get; set; }
-        public int EnderecoId { get; set; }        
+        public string CPF_CNPJ { get; set; }   
         [Required(ErrorMessage = "Digite o endereço do cliente")]
         public EnderecoModel Endereco { get; set; }
     }

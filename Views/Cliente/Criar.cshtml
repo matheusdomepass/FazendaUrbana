@@ -27,21 +27,19 @@
         @Html.ValidationMessageFor(x => x.Celular)
     </div>  
     <div class="form-group">
-        <label for="CPF_CNPJ">CPF;CNPJ</label>
+        <label for="CPF_CNPJ">CPF/CNPJ</label>
         <input type="number" asp-for="CPF_CNPJ" class="form-control" placeholder="Digite o CPF ou CNPJ do cliente">
         @Html.ValidationMessageFor(x => x.CPF_CNPJ)
     </div>
     <div class="form-group">
         <label for="Endereco_Rua">Rua</label>
         <input asp-for="Endereco.Rua" class="form-control" placeholder="Digite o nome da rua do endereço"/>
-        <span asp-validation-for="Endereco.Rua" class="text-danger"></span>
         @Html.ValidationMessageFor(x=>x.Endereco.Rua)
     </div>
 
     <div class="form-group">
         <label for="Endereco_Numero">Número</label>
         <input asp-for="Endereco.Numero" class="form-control" placeholder="Digite o numero do endereço"/>
-        <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
         @Html.ValidationMessageFor(x=>x.Endereco.Numero)
     </div>
 
@@ -54,28 +52,24 @@
     <div class="form-group">
         <label for="Endereco_Bairro">Bairro</label>
         <input asp-for="Endereco.Bairro" class="form-control" placeholder="Digite o bairro do endereço"/>
-        <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Bairro)
     </div>
 
     <div class="form-group">
         <label for="Endereco_Cidade">Cidade</label>
         <input asp-for="Endereco.Cidade" class="form-control" placeholder="Digite a cidade do endereço"/>
-        <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Cidade)
     </div>
 
     <div class="form-group">
         <label for="Endereco_Estado">Estado</label>
         <input asp-for="Endereco.Estado" class="form-control" placeholder="Digite o estado do endereço"/>
-        <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Estado)
     </div>
 
     <div class="form-group">
         <label for="Endereco_Cep">CEP</label>
         <input asp-for="Endereco.CEP" class="form-control" placeholder="Digite o CEP do endereço"/>
-        <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.CEP)
     </div>
     <button type="submit" class="btn btn-primary btn-block">Adicionar</button>

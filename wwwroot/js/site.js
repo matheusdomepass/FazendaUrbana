@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
-    getDatatable('#table-contatos');
+    getDatatable('#table-clientes');
     getDatatable('#table-usuarios');
+    getDatatable('#table-fornecedores');
+    getDatatable('#table-produtos');
+    getDatatable('#table-vendas');
 })
 
 function getDatatable(id) {

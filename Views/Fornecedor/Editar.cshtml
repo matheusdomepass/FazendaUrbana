@@ -1,39 +1,39 @@
-﻿@model ClienteModel
+﻿@model FornecedorModel
 @{
-    ViewData["Title"] = "Editar cliente";
+    ViewData["Title"] = "Editar fornecedor";
 }
 
 <div class="text-center">
 
-    <h1 class="display-4">Editar cliente</h1>
+    <h1 class="display-4">Editar fornecedor</h1>
 
 </div>
 
-<form asp-controller="Cliente" asp-action="Alterar" method="post">
+<form asp-controller="Fornecedor" asp-action="Alterar" method="post">
 
-    <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="Id" />
     <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do cliente">
+        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do fornecedor">
         @Html.ValidationMessageFor(x => x.Nome)
     </div>
     <div class="form-group">
         <label for="email">E-mail</label>
-        <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do cliente">
+        <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do fornecedor">
         @Html.ValidationMessageFor(x => x.Email)
     </div>
     <div class="form-group">
         <label for="celular">Celular</label>
-        <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do cliente">
+        <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do fornecedor">
         @Html.ValidationMessageFor(x => x.Celular)
     </div><div class="form-group">
-        <label for="CPF_CNPJ">CPF/CNPJ</label>
-        <input type="number" asp-for="CPF_CNPJ" class="form-control" placeholder="Digite o CPF ou CNPJ do cliente">
-        @Html.ValidationMessageFor(x => x.CPF_CNPJ)
+        <label for="CNPJ">CNPJ</label>
+        <input type="number" asp-for="CNPJ" class="form-control" placeholder="Digite o CPF ou CNPJ do fornecedor">
+        @Html.ValidationMessageFor(x => x.CNPJ)
     </div>
     <div class="form-group">
         <label for="Endereco_Rua">Rua</label>
-        <input asp-for="Endereco.Rua" class="form-control" placeholder="Digite o nome da rua do endereço" />
+        <input asp-for="Endereco.Rua" class="form-control" placeholder="Digite o nome da rua do endereço"/>
         <span asp-validation-for="Endereco.Rua" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Rua)
     </div>
@@ -79,7 +79,7 @@
         @Html.ValidationMessageFor(x => x.Endereco.CEP)
     </div>
     <button type="submit" class="btn btn-primary btn-block">Alterar</button>
-    <a class="btn btn-secondary btn-block" asp-controller="Cliente" asp-action="Index" role="button">Voltar</a>
+    <a class="btn btn-secondary btn-block" asp-controller="Fornecedor" asp-action="Index" role="button">Voltar</a>
 
 </form>
 

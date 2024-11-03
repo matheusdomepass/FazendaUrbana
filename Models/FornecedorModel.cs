@@ -15,7 +15,6 @@ namespace FazendaUrbana.Models
         public string Celular { get; set; }
         [Required(ErrorMessage = "Digite o CPF ou CPNJ do fornecedor")]
         public string CNPJ { get; set; }
-        public int EnderecoId { get; set; }
         [Required(ErrorMessage = "Digite o endereço do fornecedor")]
         public EnderecoModel Endereco { get; set; }
     }

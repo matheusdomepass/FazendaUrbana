@@ -1,0 +1,11 @@
+﻿@model FornecedorModel
+@{
+    ViewData["Title"] = "Confirmação de apagar o fornecedor";
+}
+
+<div class="text-center">
+    <h3>Deseja apagar o fornecedor (@Model.Nome)?</h3>
+</div>
+
+<a class="btn btn-primary btn-block" asp-action="Index" asp-controller="Fornecedor" role="button">Cancelar</a>
+<a class="btn btn-danger btn-block" asp-action="Apagar" asp-controller="Fornecedor" asp-route-id="@Model.Id" role="button">Confirmar</a>

@@ -49,11 +49,19 @@
                         <td>@fornecedor.Email</td>
                         <td>@fornecedor.Celular</td>
                         <td>@fornecedor.CNPJ</td>
-                        <td>@fornecedor.Endereco</td>
+                        <td>
+                            @fornecedor.Endereco?.Rua,
+                            @fornecedor.Endereco?.Numero,
+                            @fornecedor.Endereco?.Complemento,
+                            @fornecedor.Endereco?.Bairro,
+                            @fornecedor.Endereco?.Cidade,
+                            @fornecedor.Endereco?.Estado,
+                            @fornecedor.Endereco?.CEP
+                        </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a role"button" class="btn btn-primary" asp-route-id="@fornecedor.Id" asp-controller="Fornecedor" asp-action="Editar">Editar</a>
-                                <a role"button" class="btn btn-danger" asp-route-id="@fornecedor.Id" asp-controller="Fornecedor" asp-action="ApagarConfirmacao">Excluir</a>
+                                <a role="button" class="btn btn-primary" asp-route-id="@fornecedor.Id" asp-controller="Fornecedor" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@fornecedor.Id" asp-controller="Fornecedor" asp-action="ApagarConfirmacao">Excluir</a>
                             </div>
                         </td>
                     </tr>
