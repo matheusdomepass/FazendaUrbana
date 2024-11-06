@@ -17,6 +17,6 @@ namespace FazendaUrbana.Models
         [Required(ErrorMessage = "Digite a categoria do produto")]
         public string Categoria { get; set; }
         public DateTime Add_Data { get; set; } = DateTime.Now;
-        public int Add_Por { get; set; }
+        public string Add_Por { get; set; }
     }
 }
