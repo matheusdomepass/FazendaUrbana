@@ -41,5 +41,10 @@ namespace FazendaUrbana.Repositorio
             _bancoContext.Transacoes.Add(transacao);
             _bancoContext.SaveChanges();
         }
+
+        public List<VendasModel> BuscarTodos()
+        {
+            return _bancoContext.Vendas.ToList();
+        }
     }
 }

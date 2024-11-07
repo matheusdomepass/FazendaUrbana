@@ -14,7 +14,11 @@ namespace FazendaUrbana.Controllers
             _produtoRepositorio = produtoRepositorio;
             _vendaRepositorio = vendaRepositorio;
         }
-
+        public IActionResult Index()
+        {
+            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos();
+            return View(vendas);
+        }
         public IActionResult Vender()
         {
             var produtos = _produtoRepositorio.BuscarTodos();

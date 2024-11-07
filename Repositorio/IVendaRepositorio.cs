@@ -7,5 +7,6 @@ namespace FazendaUrbana.Repositorio
         VendasModel ListarPorId(int id);
         bool Vender(VendasModel vendas);
         void RegistrarTransacao(TransacaoModel transacao);
+        List<VendasModel> BuscarTodos();
     }
 }
