@@ -3,10 +3,13 @@
 @{
     ViewBag.Title = "Realizar Venda";
 }
+<div class="text-center">
 
-<h2>Realizar Venda</h2>
+    <h1 class="display-4">Realizar nova venda</h1>
 
-<form asp-action="Vender" method="post">
+</div>
+
+<form asp-controller="Vendas" asp-action="Vender" method="post">
     <div class="form-group">
         <label for="produtoId">Produto</label>
         <select id="produtoId" name="produtoId" class="form-control" required>

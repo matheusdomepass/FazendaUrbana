@@ -4,21 +4,21 @@
 }
 <div class="text-center">
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a class="btn btn-primary" asp-controller="Vendas" asp-action="Criar" role="button">Adicionar nova venda</a>
+        <a class="btn btn-primary" asp-controller="Vendas" asp-action="Vender" role="button">Realizar nova venda</a>
     </div>
     <br />
 
     @if (TempData["MensagemSucesso"] != null)
     {
         <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
             @TempData["MensagemSucesso"]
         </div>
     }
     @if (TempData["MensagemErro"] != null)
     {
         <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
             @TempData["MensagemErro"]
         </div>
     }

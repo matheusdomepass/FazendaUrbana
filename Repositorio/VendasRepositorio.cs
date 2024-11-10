@@ -1,5 +1,7 @@
 ﻿using FazendaUrbana.Data;
 using FazendaUrbana.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FazendaUrbana.Repositorio
@@ -45,6 +47,31 @@ namespace FazendaUrbana.Repositorio
         public List<VendasModel> BuscarTodos()
         {
             return _bancoContext.Vendas.ToList();
+        }
+
+
+        public byte[] GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var document = new iTextSharp.text.Document();
+                PdfWriter.GetInstance(document, ms);
+                document.Open();
+
+                document.Add(new Paragraph("Comprovante de Venda"));
+                document.Add(new Paragraph($"Data da Venda: {venda.DataVenda}"));
+                document.Add(new Paragraph($"Produto: {produto.Nome}"));
+                document.Add(new Paragraph($"Quantidade Vendida: {venda.Quantidade}"));
+                document.Add(new Paragraph($"Valor Unitário: {produto.Valor:C}"));
+                document.Add(new Paragraph($"Imposto: {transacao.Imposto}%"));
+                document.Add(new Paragraph($"Desconto: {transacao.Desconto:C}"));
+                document.Add(new Paragraph($"Valor Total: {venda.ValorTotal:C}"));
+                document.Add(new Paragraph($"Vendido Por: {transacao.Add_Por}"));
+
+                document.Close();
+
+                return ms.ToArray();
+            }
         }
     }
 }

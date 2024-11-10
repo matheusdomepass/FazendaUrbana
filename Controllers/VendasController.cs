@@ -1,5 +1,6 @@
 ﻿using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FazendaUrbana.Controllers
@@ -21,10 +22,10 @@ namespace FazendaUrbana.Controllers
         }
         public IActionResult Vender()
         {
-            var produtos = _produtoRepositorio.BuscarTodos();
-            return View(produtos);
+            return View();
         }
 
+        [HttpPost]
         public IActionResult Vender(int produtoId, int quantidade, decimal imposto, decimal desconto)
         {
             var produto = _produtoRepositorio.ListarPorId(produtoId);
@@ -37,6 +38,8 @@ namespace FazendaUrbana.Controllers
             var valorTotal = produto.Valor * quantidade;
             valorTotal -= desconto;
             valorTotal += valorTotal * (imposto / 100);
+
+            var usuarioLogado = User.FindFirst("NomeUsuario")?.Value;
 
             var venda = new VendasModel
             {
@@ -61,7 +64,10 @@ namespace FazendaUrbana.Controllers
 
             if (sucesso)
             {
+                produto.Quantidade -= quantidade;
+                _produtoRepositorio.Atualizar(produto);
                 _vendaRepositorio.RegistrarTransacao(transacao);
+                _vendaRepositorio.GerarComprovanteVenda(venda, produto, transacao);
 
                 TempData["MensagemSucesso"] = "Venda realizada com sucesso!";
             }

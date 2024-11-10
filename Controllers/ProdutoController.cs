@@ -64,10 +64,6 @@ namespace FazendaUrbana.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var usuarioLogado = User.FindFirst("NomeUsuario")?.Value;
-
-                    produto.Add_Por = usuarioLogado;
-
                     _produtoRepositorio.Adicionar(produto);
                     TempData["MensagemSucesso"] = "Produto cadastrado com sucesso";
                     return RedirectToAction("Index");
