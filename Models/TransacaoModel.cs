@@ -10,6 +10,6 @@
         public DateTime Transacao_Data { get; set; } = DateTime.Now;
         public decimal Imposto { get; set; }
         public decimal Desconto { get; set; }
-        public int Add_Por { get; set; }
+        public string Add_Por { get; set; }
     }
 }

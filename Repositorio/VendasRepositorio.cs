@@ -50,7 +50,7 @@ namespace FazendaUrbana.Repositorio
         }
 
 
-        public byte[] GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao)
+        public string GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao)
         {
             using (var ms = new MemoryStream())
             {

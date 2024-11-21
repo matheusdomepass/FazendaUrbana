@@ -1,39 +1,35 @@
-﻿@model IEnumerable<FazendaUrbana.Models.ProdutoModel>
+﻿@model FazendaUrbana.Models.VendasModel
 
 @{
-    ViewBag.Title = "Realizar Venda";
+    ViewData["Title"] = "Realizar Venda";
 }
-<div class="text-center">
 
-    <h1 class="display-4">Realizar nova venda</h1>
+<h2>@ViewData["Title"]</h2>
 
-</div>
-
-<form asp-controller="Vendas" asp-action="Vender" method="post">
+<form method="post" asp-controller="Vendas" asp-action="Vender">
     <div class="form-group">
-        <label for="produtoId">Produto</label>
-        <select id="produtoId" name="produtoId" class="form-control" required>
-            <option value="">Selecione um produto</option>
-            @foreach (var produto in Model)
+        <label for="ProdutoId">Produto</label>
+        <select id="ProdutoId" name="ProdutoId" class="form-control">
+            @foreach (var produto in ViewBag.Produtos)
             {
-                <option value="@produto.Id">@produto.Nome - Estoque: @produto.Quantidade</option>
+                <option value="@produto.Id">@produto.Nome - @produto.Valor.ToString("C")</option>
             }
         </select>
     </div>
 
     <div class="form-group">
-        <label for="quantidade">Quantidade</label>
-        <input type="number" id="quantidade" name="quantidade" class="form-control" min="1" required />
+        <label for="Quantidade">Quantidade</label>
+        <input type="number" id="Quantidade" name="Quantidade" class="form-control" required min="1" />
     </div>
 
     <div class="form-group">
-        <label for="desconto">Desconto (opcional)</label>
-        <input type="text" id="desconto" name="desconto" class="form-control" placeholder="0,00" />
+        <label for="ClienteId">Cliente</label>
+        <input type="number" id="ClienteId" name="ClienteId" class="form-control" required />
     </div>
 
     <div class="form-group">
-        <label for="imposto">Imposto (%)</label>
-        <input type="text" id="imposto" name="imposto" class="form-control" placeholder="0,00" />
+        <label for="Usuario">Usuário</label>
+        <input type="text" id="Usuario" name="Usuario" class="form-control" required />
     </div>
 
     <button type="submit" class="btn btn-primary">Realizar Venda</button>
