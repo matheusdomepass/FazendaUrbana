@@ -24,22 +24,7 @@
     </div>
     <div class="form-group">
         <label for="valor">Valor</label>
-        <input type="text" id="moneyInput" asp-for="Valor" class="form-control" placeholder="R$ 0,00">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#moneyInput").maskMoney({
-                    prefix: 'R$ ',
-                    thousands: '.',
-                    decimal: ',',
-                    allowNegative: false,
-                    affixesStay: true,
-                    precision: 2
-                });
-            });
-        </script>
-
+        <input type="text" asp-for="Valor" class="form-control" placeholder="R$ 0,00">
         @Html.ValidationMessageFor(x => x.Valor)
     </div>
 

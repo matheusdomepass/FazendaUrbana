@@ -30,37 +30,37 @@ namespace FazendaUrbana.Repositorio
 
         public ProdutoModel Atualizar(ProdutoModel produto)
         {
-            ProdutoModel contatoDB = ListarPorId(produto.Id);
+            ProdutoModel produtoDB = ListarPorId(produto.Id);
 
-            if (contatoDB == null)
+            if (produtoDB == null)
             {
                 throw new Exception("Houve um erro na atualização do produto");
             }
 
-            contatoDB.Nome = produto.Nome;
-            contatoDB.Descricao = produto.Descricao;
-            contatoDB.Valor = produto.Valor;
-            contatoDB.Categoria = produto.Categoria;
-            contatoDB.Quantidade = produto.Quantidade;
-            contatoDB.Add_Por = produto.Add_Por;
-            contatoDB.Add_Data = produto.Add_Data;
+            produtoDB.Nome = produto.Nome;
+            produtoDB.Descricao = produto.Descricao;
+            produtoDB.Valor = produto.Valor;
+            produtoDB.Categoria = produto.Categoria;
+            produtoDB.Quantidade = produto.Quantidade;
+            produtoDB.Add_Por = produto.Add_Por;
+            produtoDB.Add_Data = produto.Add_Data;
 
-            _bancoContext.Produtos.Update(contatoDB);
+            _bancoContext.Produtos.Update(produtoDB);
             _bancoContext.SaveChanges();
 
-            return contatoDB;
+            return produtoDB;
         }
 
         public bool Apagar(int id)
         {
-            ProdutoModel contatoDB = ListarPorId(id);
+            ProdutoModel produtoDB = ListarPorId(id);
 
-            if (contatoDB == null)
+            if (produtoDB == null)
             {
                 throw new Exception("Houve um erro ao apagar o produto");
             }
 
-            _bancoContext.Produtos.Remove(contatoDB);
+            _bancoContext.Produtos.Remove(produtoDB);
             _bancoContext.SaveChanges();
 
             return true;

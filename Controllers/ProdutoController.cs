@@ -32,7 +32,7 @@ namespace FazendaUrbana.Controllers
             ProdutoModel produto = _produtoRepositorio.ListarPorId(id);
             return View(produto);
         }
-
+        
         public IActionResult Apagar(int id)
         {
             try
