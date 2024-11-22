@@ -43,6 +43,7 @@ namespace FazendaUrbana.Repositorio
             produtoDB.Categoria = produto.Categoria;
             produtoDB.Quantidade = produto.Quantidade;
             produtoDB.Add_Data = produto.Add_Data;
+            produtoDB.Add_Por = produto.Add_Por;
 
             _bancoContext.Produtos.Update(produtoDB);
             _bancoContext.SaveChanges();
