@@ -62,6 +62,13 @@ namespace FazendaUrbana.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var usuarioExistente = _usuarioRepositorio.BuscarPorLogin(usuario.Login);
+                    if(usuarioExistente != null)
+                    {
+                        TempData["MensagemErro"] = "Nome de usuário já existente!";
+                        return RedirectToAction("Index");
+                    }
+
                     _usuarioRepositorio.Adicionar(usuario);
                     TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                     return RedirectToAction("Index");
