@@ -1,4 +1,4 @@
-﻿@model FazendaUrbana.Models.VendasModel
+﻿@model VendasModel
 
 @{
     ViewData["Title"] = "Realizar Venda";
@@ -10,27 +10,35 @@
     <div class="form-group">
         <label for="ProdutoId">Produto</label>
         <select id="ProdutoId" name="ProdutoId" class="form-control">
-            @foreach (var produto in ViewBag.Produtos)
+            @if (Model.Produtos != null && Model.Produtos.Any())
             {
-                <option value="@produto.Id">@produto.Nome - @produto.Valor.ToString("C")</option>
+                foreach (var produto in Model.Produtos)
+                {
+                    <option value="@produto.Id">@produto.Nome - @produto.Valor.ToString("C")</option>
+                }
+            }
+            else
+            {
+                <option disabled>Nenhum produto disponível</option>
             }
         </select>
     </div>
-
     <div class="form-group">
-        <label for="Quantidade">Quantidade</label>
-        <input type="number" id="Quantidade" name="Quantidade" class="form-control" required min="1" />
+        <label for="quantidade">Quantidade</label>
+        <input type="number" asp-for="Quantidade" class="form-control" placeholder="Digite a quantidade do produto">
+        @Html.ValidationMessageFor(x => x.Quantidade)
     </div>
-
     <div class="form-group">
-        <label for="ClienteId">Cliente</label>
-        <input type="number" id="ClienteId" name="ClienteId" class="form-control" required />
+        <label for="NomeCliente">Cliente</label>
+        <input type="text" asp-for="NomeCliente" class="form-control" placeholder="Digite o nome do cliente">
+        @Html.ValidationMessageFor(x => x.NomeCliente)
     </div>
-
     <div class="form-group">
-        <label for="Usuario">Usuário</label>
-        <input type="text" id="Usuario" name="Usuario" class="form-control" required />
+        <label for="Add_Por">Venda feita por</label>
+        <input type="text" asp-for="Add_Por" class="form-control" placeholder="Digite o nome do usuário">
+        @Html.ValidationMessageFor(x => x.Add_Por)
     </div>
 
     <button type="submit" class="btn btn-primary">Realizar Venda</button>
-</form>
+    <a class="btn btn-secondary btn-block" asp-controller="Vendas" asp-action="Index" role="button">Voltar</a>
+</form> 

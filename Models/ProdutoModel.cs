@@ -18,5 +18,6 @@ namespace FazendaUrbana.Models
         public string Categoria { get; set; }
         public DateTime Add_Data { get; set; } = DateTime.Now;
         public string Add_Por { get; set; }
+        public List<VendasModel> Vendas { get; set; } = new List<VendasModel>();   
     }
 }

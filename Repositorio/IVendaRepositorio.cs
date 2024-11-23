@@ -5,7 +5,8 @@ namespace FazendaUrbana.Repositorio
     public interface IVendaRepositorio
     {
         VendasModel ListarPorId(int id);
-        bool Vender(VendasModel vendas);
+        bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao);
+        ProdutoModel ListarProdutoPorId(int id);
         void RegistrarTransacao(TransacaoModel transacao);
         List<VendasModel> BuscarTodos();
         byte[] GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao);

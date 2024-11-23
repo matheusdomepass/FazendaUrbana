@@ -22,70 +22,89 @@ namespace FazendaUrbana.Controllers
         }
         public IActionResult Vender()
         {
-            return View();
+            var produtos = _produtoRepositorio.BuscarTodos();
+
+            if(produtos == null || !produtos.Any())
+            {
+                TempData["MensagemErro"] = "Nenhum produto encontrado";
+                return RedirectToAction("Index");
+            }
+            var model = new VendasModel { Produtos = produtos };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Vender(int produtoId, int quantidade, decimal imposto, decimal desconto)
-        {
-            var produto = _produtoRepositorio.ListarPorId(produtoId);
+        public IActionResult Vender(int produtoId, int quantidade, string nomeCliente, string add_Por, TransacaoModel transacaoVenda)
+        {            
+            var produto = _vendaRepositorio.ListarProdutoPorId(produtoId);
             if (produto == null)
             {
                 TempData["MensagemErro"] = "Produto não encontrado!";
                 return RedirectToAction("Index");
             }
-            ViewBag.produtoId = produtoId;
-
-            var valorTotal = produto.Valor * quantidade;
-            var venda = new VendasModel
+            if (produto.Quantidade < quantidade)
             {
+                TempData["MensagemErro"] = "Quantidade solicitada excede o estoque disponível.";
+                return RedirectToAction("Index");
+            }
+            if (quantidade == 0)
+            {
+                TempData["MensagemErro"] = "Quantidade solicitada não pode ser igual a 0.";
+                return RedirectToAction("Index");
+            }
+            var valorTotal = produto.Valor * quantidade;
+            
+            var venda = new VendasModel
+            {                
                 ProdutoId = produtoId,
                 Quantidade = quantidade,
                 ValorTotal = valorTotal,
                 DataVenda = DateTime.Now,
+                Add_Por = add_Por,
+                NomeCliente = nomeCliente,
+                Transacao = transacaoVenda
             };
-            var usuarioLogado = User.FindFirst("NomeUsuario")?.Value;
-
             var transacao = new TransacaoModel
             {
-                Tipo = "Venda",
                 Quantidade = quantidade,
-                ClienteId = 1, // Verifique se ClienteId é válido
+                ClienteId = 1,
                 Total = valorTotal,
                 Transacao_Data = DateTime.Now,
-                Imposto = imposto,
-                Desconto = desconto,
-                Add_Por = usuarioLogado
+                Add_Por = add_Por
             };
+            if (string.IsNullOrEmpty(venda.Transacao.Add_Por))
+            {
+                venda.Transacao.Add_Por = "Usuário Desconhecido";
+            }
 
-            if (transacao == null)
+            if (venda.Transacao == null)
             {
                 TempData["MensagemErro"] = "Falha ao criar objeto de transação.";
                 return RedirectToAction("Index");
             }
 
-            var sucesso = _vendaRepositorio.Vender(new VendasModel
-            {
-                ProdutoId = produtoId,
-                Quantidade = quantidade,
-                ValorTotal = valorTotal,
-                DataVenda = DateTime.Now
-            });
+            var sucesso = _vendaRepositorio.Vender(venda, produto, transacao);
 
             if (sucesso)
             {
                 produto.Quantidade -= quantidade;
                 _produtoRepositorio.Atualizar(produto);
-                _vendaRepositorio.RegistrarTransacao(transacao);
-                _vendaRepositorio.GerarComprovanteVenda(new VendasModel
+                TempData["MensagemSucesso"] = "Venda realizada com sucesso!";
+                var comprovante = _vendaRepositorio.GerarComprovanteVenda(new VendasModel
                 {
                     ProdutoId = produtoId,
                     Quantidade = quantidade,
                     ValorTotal = valorTotal,
-                    DataVenda = DateTime.Now
+                    DataVenda = DateTime.Now,
+                    NomeCliente = nomeCliente
                 }, produto, transacao);
 
-                TempData["MensagemSucesso"] = "Venda realizada com sucesso!";
+                if(comprovante != null)
+                {
+                    TempData["MensagemSucesso"] = "Gerando comprovante...";
+                    return File(comprovante, "application/pdf", "ComprovanteVenda.pdf");
+                }
             }
             else
             {

@@ -8,6 +8,13 @@ namespace FazendaUrbana.Data
         public BancoContext(DbContextOptions<BancoContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<VendasModel>().
+                HasOne(v => v.Produto).WithMany(p => p.Vendas).HasForeignKey( v => v.ProdutoId );
+
+            base.OnModelCreating(modelBuilder);
+        }
 
         public DbSet<ClienteModel> Clientes { get; set; }
         public DbSet<UsuarioModel> Usuarios { get; set; }

@@ -4,6 +4,7 @@ using FazendaUrbana.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FazendaUrbana.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20241123134151_AtualizarBanco")]
+    partial class AtualizarBanco
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,8 +192,18 @@ namespace FazendaUrbana.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Desconto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Imposto")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
@@ -257,28 +270,13 @@ namespace FazendaUrbana.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Add_Por")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DataVenda")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("NomeCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomeProduto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransacaoId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("ValorTotal")
@@ -287,8 +285,6 @@ namespace FazendaUrbana.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProdutoId");
-
-                    b.HasIndex("TransacaoId");
 
                     b.ToTable("Vendas");
                 });
@@ -330,15 +326,7 @@ namespace FazendaUrbana.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FazendaUrbana.Models.TransacaoModel", "Transacao")
-                        .WithMany()
-                        .HasForeignKey("TransacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Produto");
-
-                    b.Navigation("Transacao");
                 });
 
             modelBuilder.Entity("FazendaUrbana.Models.ProdutoModel", b =>

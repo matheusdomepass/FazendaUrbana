@@ -2,6 +2,8 @@
     getDatatable('#table-clientes');
     getDatatable('#table-usuarios');
     getDatatable('#table-fornecedores');
+    getDatatable('#table-produtos');
+    getDatatable('#table-vendas');
 })
 
 $('.close-alert').click(function (){
