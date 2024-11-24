@@ -19,6 +19,7 @@ builder.Services.AddScoped<IFornecedorRepositorio, FornecedorRepositorio>();
 builder.Services.AddScoped<IVendaRepositorio, VendasRepositorio>();
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IEmail, Email>();
+builder.Services.AddScoped<ICarrinho, Carrinho>();
 
 builder.Services.AddSession(o =>
 {

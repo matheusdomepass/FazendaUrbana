@@ -32,29 +32,6 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Vendas.Include(v => v.Produto).ToList();
         }
-        public byte[] GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao)
-        {
-            using (var ms = new MemoryStream())
-            {
-                var document = new iTextSharp.text.Document();
-                PdfWriter.GetInstance(document, ms);
-                document.Open();
-
-                document.Add(new Paragraph("Comprovante de Venda"));
-                document.Add(new Paragraph($"Data da Venda: {venda.DataVenda}"));
-                document.Add(new Paragraph($"Nome do Cliente: {venda.NomeCliente}"));
-                document.Add(new Paragraph($"Produto: {produto.Nome}"));
-                document.Add(new Paragraph($"Quantidade Vendida: {venda.Quantidade}"));
-                document.Add(new Paragraph($"Valor Unitário: {produto.Valor:C}"));
-                document.Add(new Paragraph($"Valor Total: {venda.ValorTotal:C}"));
-                document.Add(new Paragraph($"Vendido Por: {transacao.Add_Por}"));
-
-                document.Close();
-
-                return ms.ToArray();
-            }
-        }
-
         public bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao)
         {
             if (produto == null || produto.Quantidade < vendas.Quantidade)
@@ -65,8 +42,10 @@ namespace FazendaUrbana.Repositorio
             produto.Quantidade -= vendas.Quantidade;
             _produtorepositorio.Atualizar(produto);
 
-            _bancoContext.Vendas.Add(vendas);
+            transacao.Id = 0;
+
             _bancoContext.Transacoes.Add(transacao);
+            _bancoContext.Vendas.Add(vendas);
             _bancoContext.SaveChanges();
 
             return true;
@@ -75,6 +54,40 @@ namespace FazendaUrbana.Repositorio
         public ProdutoModel ListarProdutoPorId(int id)
         {
             return _bancoContext.Produtos.FirstOrDefault(p => p.Id == id);
+        }
+
+        public byte[] GerarComprovanteVenda(TransacaoModel transacao, List<VendasModel> vendas)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var document = new iTextSharp.text.Document();
+                PdfWriter.GetInstance(document, ms);
+                document.Open();
+
+                document.Add(new Paragraph("Comprovante de Venda"));
+                document.Add(new Paragraph($"Data da Venda: {transacao.Transacao_Data}"));
+                document.Add(new Paragraph($"Nome do Cliente: {vendas.FirstOrDefault()?.NomeCliente}"));
+                document.Add(new Paragraph($"Vendido Por: {transacao.Add_Por}"));
+                document.Add(new Paragraph(" "));
+
+                document.Add(new Paragraph($"Produtos: "));
+                foreach (var venda in vendas)
+                {
+                    document.Add(new Paragraph($"- Produto: {venda.NomeProduto}"));
+                    document.Add(new Paragraph($"  Quantidade Vendida: {venda.Quantidade}"));
+                    document.Add(new Paragraph($"  Valor Unitário: {venda.ValorUnitario:C}"));
+                    document.Add(new Paragraph($"  Valor Total: {venda.ValorTotal:C}"));
+                    document.Add(new Paragraph(" "));
+                }
+
+                document.Add(new Paragraph($"Quantidade Total de Produtos: {vendas.Sum(v => v.Quantidade)}"));
+                document.Add(new Paragraph($"Valor Total da Transação: {transacao.Total:C}"));
+
+
+                document.Close();
+
+                return ms.ToArray();
+            }
         }
     }
 }

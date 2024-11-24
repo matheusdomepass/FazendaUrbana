@@ -4,6 +4,7 @@ using FazendaUrbana.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FazendaUrbana.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20241124145403_AdicionandoValorUnitarioEmVendasModel")]
+    partial class AdicionandoValorUnitarioEmVendasModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,16 +290,11 @@ namespace FazendaUrbana.Migrations
                     b.Property<decimal>("ValorUnitario")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("VendasModelId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProdutoId");
 
                     b.HasIndex("TransacaoId");
-
-                    b.HasIndex("VendasModelId");
 
                     b.ToTable("Vendas");
                 });
@@ -344,10 +342,6 @@ namespace FazendaUrbana.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FazendaUrbana.Models.VendasModel", null)
-                        .WithMany("Carrinho")
-                        .HasForeignKey("VendasModelId");
-
                     b.Navigation("Produto");
 
                     b.Navigation("Transacao");
@@ -365,8 +359,6 @@ namespace FazendaUrbana.Migrations
 
             modelBuilder.Entity("FazendaUrbana.Models.VendasModel", b =>
                 {
-                    b.Navigation("Carrinho");
-
                     b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618

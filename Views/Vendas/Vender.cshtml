@@ -5,8 +5,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
-<form method="post" asp-controller="Vendas" asp-action="Vender">
+<form method="post" asp-controller="Vendas" asp-action="AdicionarAoCarrinho">
     <div class="form-group">
         <label for="ProdutoId">Produto</label>
         <select id="ProdutoId" name="ProdutoId" class="form-control">
@@ -25,20 +24,66 @@
     </div>
     <div class="form-group">
         <label for="quantidade">Quantidade</label>
-        <input type="number" asp-for="Quantidade" class="form-control" placeholder="Digite a quantidade do produto">
-        @Html.ValidationMessageFor(x => x.Quantidade)
+        <input type="number" name="quantidade" class="form-control" placeholder="Digite a quantidade do produto" required>
     </div>
     <div class="form-group">
         <label for="NomeCliente">Cliente</label>
-        <input type="text" asp-for="NomeCliente" class="form-control" placeholder="Digite o nome do cliente">
-        @Html.ValidationMessageFor(x => x.NomeCliente)
+        <input type="text" name="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" required>
     </div>
     <div class="form-group">
         <label for="Add_Por">Venda feita por</label>
-        <input type="text" asp-for="Add_Por" class="form-control" placeholder="Digite o nome do usuário">
-        @Html.ValidationMessageFor(x => x.Add_Por)
+        <input type="text" name="add_Por" class="form-control" placeholder="Digite o nome do vendedor" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Realizar Venda</button>
-    <a class="btn btn-secondary btn-block" asp-controller="Vendas" asp-action="Index" role="button">Voltar</a>
-</form> 
+    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+</form>
+@if (Model.Carrinho != null && Model.Carrinho.Any())
+{
+    <h3>Carrinho de Compras</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Carrinho)
+            {
+                <tr>
+                    <td>@item.NomeProduto</td>
+                    <td>
+                        <form method="post" asp-controller="Vendas" asp-action="AtualizarCarrinho">
+                            <input type="number" name="novaQuantidade" value="@item.Quantidade" class="form-control" required>
+                            <button type="submit" class="btn btn-warning btn-sm">Atualizar</button>
+                            <input type="hidden" name="produtoId" value="@item.ProdutoId" />
+                        </form>
+                    </td>
+                    <td>@item.ValorUnitario.ToString("C")</td>
+                    <td>@item.ValorTotal.ToString("C")</td>
+                    <td>
+                        <form method="post" asp-controller="Vendas" asp-action="RemoverDoCarrinho">
+                            <input type="hidden" name="produtoId" value="@item.ProdutoId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td><strong>@Model.Carrinho.Sum(c => c.ValorTotal).ToString("C")</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post" asp-controller="Vendas" asp-action="FinalizarVenda">
+        <button type="submit" class="btn btn-primary">Finalizar Venda</button>
+    </form>
+}
+else
+{
+    <p>Carrinho vazio</p>
+}

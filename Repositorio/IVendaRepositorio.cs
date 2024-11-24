@@ -9,6 +9,6 @@ namespace FazendaUrbana.Repositorio
         ProdutoModel ListarProdutoPorId(int id);
         void RegistrarTransacao(TransacaoModel transacao);
         List<VendasModel> BuscarTodos();
-        byte[] GerarComprovanteVenda(VendasModel venda, ProdutoModel produto, TransacaoModel transacao);
+        byte[] GerarComprovanteVenda(TransacaoModel transacao, List<VendasModel> vendas);
     }
 }
