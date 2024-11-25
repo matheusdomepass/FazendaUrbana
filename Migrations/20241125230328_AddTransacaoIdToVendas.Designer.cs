@@ -4,6 +4,7 @@ using FazendaUrbana.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FazendaUrbana.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20241125230328_AddTransacaoIdToVendas")]
+    partial class AddTransacaoIdToVendas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,9 +305,6 @@ namespace FazendaUrbana.Migrations
                     b.Property<int>("TransacaoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TransacaoModelId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("decimal(18,2)");
 
@@ -319,8 +319,6 @@ namespace FazendaUrbana.Migrations
                     b.HasIndex("ProdutoId");
 
                     b.HasIndex("TransacaoId");
-
-                    b.HasIndex("TransacaoModelId");
 
                     b.HasIndex("VendasModelId");
 
@@ -365,15 +363,10 @@ namespace FazendaUrbana.Migrations
                         .IsRequired();
 
                     b.HasOne("FazendaUrbana.Models.TransacaoModel", "Transacao")
-                        .WithMany()
-                        .HasForeignKey("TransacaoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_Vendas_Transacao");
-
-                    b.HasOne("FazendaUrbana.Models.TransacaoModel", null)
                         .WithMany("Vendas")
-                        .HasForeignKey("TransacaoModelId");
+                        .HasForeignKey("TransacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FazendaUrbana.Models.VendasModel", null)
                         .WithMany("Carrinho")

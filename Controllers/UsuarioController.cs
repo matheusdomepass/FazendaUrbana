@@ -65,18 +65,22 @@ namespace FazendaUrbana.Controllers
                     var usuarioExistente = _usuarioRepositorio.BuscarPorLogin(usuario.Login);
                     if(usuarioExistente != null)
                     {
-                        TempData["MensagemErro"] = "Nome de usuário já existente!";
-                        return RedirectToAction("Index");
+                        TempData["MensagemErro"] = "Nome de usuário já está cadastrado!";
+                        return View(usuario);
+                    }
+
+                    var cpfExistente = _usuarioRepositorio.BuscarPorCPF(usuario.CPF);
+                    if(cpfExistente != null)
+                    {
+                        TempData["MensagemErro"] = "CPF do usuário já está cadastrado!";
+                        return View(usuario);
                     }
 
                     _usuarioRepositorio.Adicionar(usuario);
                     TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                     return RedirectToAction("Index");
                 }
-
-
                 return View(usuario);
-
             }
             catch (Exception erro)
             {
@@ -103,12 +107,24 @@ namespace FazendaUrbana.Controllers
                         CPF = usuarioSemSenhaModel.CPF,
                         DataNascimento = usuarioSemSenhaModel.DataNascimento
                     };
+                    var usuarioExistente = _usuarioRepositorio.BuscarPorLogin(usuario.Login);
+                    if (usuarioExistente != null && usuarioExistente.Id != usuario.Id)
+                    {
+                        TempData["MensagemErro"] = "Nome de usuário já está cadastrado!";
+                        return View("Editar", usuario);
+                    }
 
+                    var cpfExistente = _usuarioRepositorio.BuscarPorCPF(usuario.CPF);
+                    if (cpfExistente != null && cpfExistente.Id != usuario.Id)
+                    {
+                        TempData["MensagemErro"] = "CPF do usuário já está cadastrado!";
+                        return View("Editar", usuario);
+                    }
                     usuario = _usuarioRepositorio.Atualizar(usuario);
                     TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View(usuario);
+                return View("Editar", usuario);
 
             }
             catch (Exception erro)

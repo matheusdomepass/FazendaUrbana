@@ -17,6 +17,11 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
         }
+
+        public UsuarioModel BuscarPorCPF(string cpf)
+        {
+            return _bancoContext.Usuarios.FirstOrDefault(x => x.CPF == cpf);
+        }
         public UsuarioModel ListarPorId(int id)
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
@@ -91,6 +96,5 @@ namespace FazendaUrbana.Repositorio
             return true;
         }
 
-        
     }
 }

@@ -30,7 +30,20 @@ namespace FazendaUrbana.Repositorio
 
         public List<VendasModel> BuscarTodos()
         {
-            return _bancoContext.Vendas.Include(v => v.Produto).ToList();
+            return _bancoContext.Vendas
+        .Include(v => v.Produto)
+        .Select(v => new VendasModel
+        {
+            Id = v.Id,
+            NomeProduto = v.NomeProduto,
+            NomeCliente = v.NomeCliente,
+            Quantidade = v.Quantidade,
+            ValorUnitario = v.ValorUnitario,
+            ValorTotal = v.ValorTotal,
+            DataVenda = v.DataVenda,
+            Add_Por = v.Add_Por
+        })
+        .ToList();
         }
         public bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao)
         {

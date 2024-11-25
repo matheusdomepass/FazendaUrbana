@@ -111,6 +111,8 @@ namespace FazendaUrbana.Controllers
                 Add_Por = add_Por
             };
 
+            _vendaRepositorio.RegistrarTransacao(transacao);
+
             var vendas = new List<VendasModel>();
 
             foreach (var item in carrinho)
@@ -135,7 +137,8 @@ namespace FazendaUrbana.Controllers
                     Add_Por = transacao.Add_Por,
                     NomeCliente = item.NomeCliente,
                     Transacao = transacao,
-                    NomeProduto = item.NomeProduto
+                    NomeProduto = item.NomeProduto,
+                    TransacaoId = transacao.Id
                 };
 
                 var sucesso = _vendaRepositorio.Vender(venda, produto, transacao);

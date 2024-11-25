@@ -14,6 +14,7 @@
         public DateTime DataVenda { get; set; } = DateTime.Now;
         public string Add_Por {  get; set; }
         public string NomeCliente { get; set; }
+        public int TransacaoId { get; set; }
         public TransacaoModel Transacao { get; set; }
     }
 }

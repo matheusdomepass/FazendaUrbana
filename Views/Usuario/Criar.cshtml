@@ -10,6 +10,19 @@
 
 </div>
 
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
 <form asp-controller="Usuario" asp-action="Criar" method="post">
 
     <div class="form-group">
@@ -25,6 +38,7 @@
     <div class="form-group">
         <label for="cpf">CPF</label>
         <input type="text" asp-for="CPF" class="form-control" placeholder="Digite o CPF do usuário">
+        <span class="text-danger" id="cpf-error"></span>
         @Html.ValidationMessageFor(x => x.CPF)
     </div>
     <div class="form-group">
@@ -35,6 +49,7 @@
     <div class="form-group">
         <label for="login">Login</label>
         <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário">
+        <span class="text-danger" id="login-error"></span>
         @Html.ValidationMessageFor(x => x.Login)
     </div>
     <div class="form-group">
@@ -50,8 +65,10 @@
         <label for="senha">Senha</label>
         <input type="password" asp-for="Senha" class="form-control" placeholder="Digite a senha do usuário">
         @Html.ValidationMessageFor(x => x.Senha)
-    </div>
+    </div>    
     <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
     <a class="btn btn-secondary btn-block" asp-controller="Usuario" asp-action="Index" role="button">Voltar</a>
+    
 </form>
+
 

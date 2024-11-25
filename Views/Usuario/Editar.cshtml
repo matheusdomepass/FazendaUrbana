@@ -10,6 +10,19 @@
 
 </div>
 
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MensagemErro"]
+    </div>
+}
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
 <form asp-controller="Usuario" asp-action="Alterar" method="post">
     <input type="hidden" asp-for="Id"/>
     <div class="form-group">

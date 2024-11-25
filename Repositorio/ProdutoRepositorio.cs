@@ -65,6 +65,11 @@ namespace FazendaUrbana.Repositorio
 
             return true;
         }
+
+        public ProdutoModel ListarPorNome(string nome)
+        {
+            return _bancoContext.Produtos.FirstOrDefault(x => x.Nome == nome);
+        }
     }
 }
 
