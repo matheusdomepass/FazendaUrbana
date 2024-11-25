@@ -1,8 +1,27 @@
-﻿@{
+﻿@using FazendaUrbana.Enums
+@using FazendaUrbana.Helper
+
+@{
     ViewData["Title"] = "Página Inicial";
+    var usuario = ViewBag.UsuarioLogado as UsuarioModel;
+    var buscarSessaoAdmin = usuario != null && usuario.Perfil == PerfilEnum.Admin;
 }
 
 <div class="text-center">
     <h1 class="display-4">Bem-vindo</h1>
     <p>Fazenda Nova Vista</p>
+
+    <a href="@Url.Action("Index", "Cliente")" class="btn btn-primary">Cliente</a>
+
+    <a href="@Url.Action("Index", "Fornecedor")" class="btn btn-primary">Fornecedor</a>
+
+    <a href="@Url.Action("Index", "Produto")" class="btn btn-primary">Produto</a>
+    @if (buscarSessaoAdmin)
+    {
+        <a href="@Url.Action("Index", "Usuario")
+        " class="btn btn-primary">Usuários</a>
+
+        <a href="@Url.Action("Index", "AlterarSenha")" class="btn btn-primary">Alterar Senha</a>
+    }
+    <a href="@Url.Action("Index", "Vendas")" class="btn btn-primary">Vendas</a>
 </div>

@@ -7,5 +7,6 @@ namespace FazendaUrbana.Helper
         void CriarSessaoUsuario(UsuarioModel usuario);
         void RemoverSessaoUsuario();
         UsuarioModel BuscarSessaoUsuario();
+        bool BuscarSessaoAdmin();
     }
 }

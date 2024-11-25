@@ -1,6 +1,8 @@
 ﻿using FazendaUrbana.Data;
+using FazendaUrbana.Helper;
 using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
+using Microsoft.EntityFrameworkCore;
 
 namespace FazendaUrbana.Repositorio
 {
@@ -15,11 +17,6 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
         }
-        public UsuarioModel BuscarPorEmailELogin(string email, string login)
-        {
-            return _bancoContext.Usuarios.FirstOrDefault(x => x.Email.ToUpper() == email.ToUpper() && 
-            x.Login.ToUpper() == login.ToUpper());
-        }
         public UsuarioModel ListarPorId(int id)
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
@@ -27,6 +24,22 @@ namespace FazendaUrbana.Repositorio
         public List<UsuarioModel> BuscarTodos()
         {
             return _bancoContext.Usuarios.ToList();
+        }
+        public UsuarioModel AlterarSenha(AlterarSenhaModel alterarSenhaModel)
+        {
+            UsuarioModel usuarioDB = ListarPorId(alterarSenhaModel.Id);
+
+            if (usuarioDB == null) throw new Exception("Houve um erro na atualização da senha, usuário não encotrado!");
+
+            if (usuarioDB.SenhaValida(alterarSenhaModel.NovaSenha)) throw new Exception("Nova senha deve ser diferente da senha atual!");
+
+            usuarioDB.Senha = alterarSenhaModel.NovaSenha.GerarHash();
+            usuarioDB.DataAtualizacao = DateTime.Now;
+
+            _bancoContext.Usuarios.Update(usuarioDB);
+            _bancoContext.SaveChanges();
+
+            return usuarioDB;
         }
 
         public UsuarioModel Adicionar(UsuarioModel usuario)

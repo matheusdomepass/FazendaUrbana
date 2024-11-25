@@ -21,6 +21,7 @@ builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IEmail, Email>();
 builder.Services.AddScoped<ICarrinho, Carrinho>();
 
+
 builder.Services.AddSession(o =>
 {
     o.Cookie.HttpOnly = true;

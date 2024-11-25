@@ -12,6 +12,12 @@ namespace FazendaUrbana.Helper
             _contextAccessor = contextAccessor;
         }
 
+        public bool BuscarSessaoAdmin()
+        {
+            UsuarioModel usuario = BuscarSessaoUsuario();
+            return usuario != null && usuario.Perfil == Enums.PerfilEnum.Admin;
+        }
+
         public UsuarioModel BuscarSessaoUsuario()
         {
             string sessaoUsuario = _contextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");

@@ -64,6 +64,8 @@ namespace FazendaUrbana.Repositorio
                 PdfWriter.GetInstance(document, ms);
                 document.Open();
 
+                document.Add(new Paragraph("Fazenda Boa Vista"));
+
                 document.Add(new Paragraph("Comprovante de Venda"));
                 document.Add(new Paragraph($"Data da Venda: {transacao.Transacao_Data}"));
                 document.Add(new Paragraph($"Nome do Cliente: {vendas.FirstOrDefault()?.NomeCliente}"));
