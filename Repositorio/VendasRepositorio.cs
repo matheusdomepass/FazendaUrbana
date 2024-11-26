@@ -98,11 +98,10 @@ namespace FazendaUrbana.Repositorio
                 .Include(t => t.Vendas)
                 .FirstOrDefault(t => t.Id == id);
         }
-        public List<VendasModel> ListarVendasPorTransacaoId(int transacaoId)
+        public List<VendasModel> ListarVendasPorTransacaoId()
         {
             return _bancoContext.Vendas
-                .Where(v => v.TransacaoId == transacaoId)
-                .Include(v => v.Produto)
+                .Include(v => v.Transacao)
                 .ToList();
         }
 

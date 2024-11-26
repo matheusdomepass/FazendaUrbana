@@ -22,7 +22,7 @@ namespace FazendaUrbana.Controllers
         }
         public IActionResult Index()
         {
-            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos();
+            List<VendasModel> vendas = _vendaRepositorio.ListarVendasPorTransacaoId();
 
             return View(vendas);
         }
@@ -148,6 +148,7 @@ namespace FazendaUrbana.Controllers
 
                 var venda = new VendasModel
                 {
+                    Id = transacao.Id,
                     ProdutoId = item.ProdutoId,
                     Quantidade = item.Quantidade,
                     ValorUnitario = produto.Valor,
@@ -230,5 +231,5 @@ namespace FazendaUrbana.Controllers
 
             return RedirectToAction("Vender");
         }
-        
-}}
+    }
+}

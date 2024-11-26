@@ -80,6 +80,13 @@ namespace FazendaUrbana.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    var produtoExistente = _produtoRepositorio.ListarPorNome(produto.Nome);
+                    if (produtoExistente != null)
+                    {
+                        TempData["MensagemErro"] = "Produto já está cadastrado";
+                        return View(produto);
+                    }
+
                     _produtoRepositorio.Adicionar(produto);
                     TempData["MensagemSucesso"] = "Produto cadastrado com sucesso";
                     return RedirectToAction("Index");

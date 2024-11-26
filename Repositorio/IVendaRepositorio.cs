@@ -11,7 +11,7 @@ namespace FazendaUrbana.Repositorio
         void RegistrarTransacao(TransacaoModel transacao);
         List<VendasModel> BuscarTodos();
         byte[] GerarComprovanteVenda(TransacaoModel transacao, List<VendasModel> vendas);
-        List<VendasModel> ListarVendasPorTransacaoId(int transacaoId);
+        List<VendasModel> ListarVendasPorTransacaoId();
 
     }
 }

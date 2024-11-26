@@ -31,7 +31,6 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Transação</th>
                 <th scope="col">Nome Cliente</th>
                 <th scope="col">Nome Produto</th>
                 <th scope="col">Valor Total</th>
@@ -44,9 +43,9 @@
             {
                     @foreach (var venda in Model)
                     {
-                        <tr>
-                            <th scope="row">@venda.Id</th>
-                            <td>@venda.TransacaoId</td>                            
+                    var transacao = venda.Transacao;
+                    <tr>
+                            <th scope="row">@transacao.Id</th>                           
                             <td>@venda.NomeCliente</td>
                             <td>@venda.NomeProduto</td>
                             <td>@venda.ValorTotal</td>
@@ -56,8 +55,7 @@
                         </tr>
 
                     }
-                }
-            }
+                }            
             else
             {
                 <tr class="add"><td valign="top" colspan="6">Nenhuma venda encontrada</td></tr>
