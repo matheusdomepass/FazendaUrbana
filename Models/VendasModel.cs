@@ -1,4 +1,6 @@
-﻿namespace FazendaUrbana.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FazendaUrbana.Models
 {
     public class VendasModel
     {
@@ -12,6 +14,7 @@
         public decimal ValorUnitario { get; set; }
         public decimal ValorTotal { get; set; }
         public DateTime DataVenda { get; set; } = DateTime.Now;
+        [Column(TypeName = "nvarchar(max)")]
         public string Add_Por {  get; set; }
         public string NomeCliente { get; set; }
         public int TransacaoId { get; set; }

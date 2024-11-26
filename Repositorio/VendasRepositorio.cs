@@ -28,22 +28,26 @@ namespace FazendaUrbana.Repositorio
             _bancoContext.SaveChanges();
         }
 
-        public List<VendasModel> BuscarTodos()
+        public List<VendasModel> BuscarTodos(bool agrupada = false)
         {
-            return _bancoContext.Vendas
-        .Include(v => v.Produto)
-        .Select(v => new VendasModel
-        {
-            Id = v.Id,
-            NomeProduto = v.NomeProduto,
-            NomeCliente = v.NomeCliente,
-            Quantidade = v.Quantidade,
-            ValorUnitario = v.ValorUnitario,
-            ValorTotal = v.ValorTotal,
-            DataVenda = v.DataVenda,
-            Add_Por = v.Add_Por
-        })
-        .ToList();
+            if (agrupada)
+            {
+                var vendasAgrupadas = _bancoContext.Vendas
+                    .Include(v => v.Transacao)
+                    .GroupBy(v => v.TransacaoId)
+                    .Select(g => g.FirstOrDefault())
+                    .ToList();
+
+                return vendasAgrupadas;
+            }
+            else
+            {                
+                var todasVendas = _bancoContext.Vendas
+                    .Include(v => v.Transacao)
+                    .ToList();
+
+                return todasVendas;
+            }
         }
         public bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao)
         {
@@ -78,11 +82,11 @@ namespace FazendaUrbana.Repositorio
                 document.Open();
 
                 document.Add(new Paragraph("Fazenda Boa Vista"));
+                document.Add(new Paragraph(" "));
 
                 document.Add(new Paragraph("Comprovante de Venda"));
                 document.Add(new Paragraph($"Data da Venda: {transacao.Transacao_Data}"));
-                document.Add(new Paragraph($"Nome do Cliente: {vendas.FirstOrDefault()?.NomeCliente}"));
-                document.Add(new Paragraph($"Vendido Por: {transacao.Add_Por}"));
+                document.Add(new Paragraph($"Nome do Cliente: {vendas.FirstOrDefault()?.NomeCliente}"));                
                 document.Add(new Paragraph(" "));
 
                 document.Add(new Paragraph($"Produtos: "));
@@ -97,7 +101,7 @@ namespace FazendaUrbana.Repositorio
 
                 document.Add(new Paragraph($"Quantidade Total de Produtos: {vendas.Sum(v => v.Quantidade)}"));
                 document.Add(new Paragraph($"Valor Total da Transação: {transacao.Total:C}"));
-
+                document.Add(new Paragraph($"Vendido Por: {vendas[0].Add_Por}"));
 
                 document.Close();
 

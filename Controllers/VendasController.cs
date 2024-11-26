@@ -17,9 +17,10 @@ namespace FazendaUrbana.Controllers
             _produtoRepositorio = produtoRepositorio;
             _vendaRepositorio = vendaRepositorio;
         }
-        public IActionResult Index()
+        public IActionResult Index(bool agrupado = false)
         {
-            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos();
+            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos(agrupado);
+
             return View(vendas);
         }
         public IActionResult Vender()
@@ -90,7 +91,7 @@ namespace FazendaUrbana.Controllers
         }
 
         [HttpPost]
-        public IActionResult FinalizarVenda(int produtoId, int quantidade, string nomeCliente, string add_Por, TransacaoModel transacaoVenda)
+        public IActionResult FinalizarVenda(int produtoId, int quantidade, string nomeCliente, string add_Por)
         {
             var carrinho = _carrinho.ObterCarrinho();
             if (carrinho == null || !carrinho.Any())
@@ -98,6 +99,7 @@ namespace FazendaUrbana.Controllers
                 TempData["MensagemErro"] = "O carrinho está vazio!";
                 return RedirectToAction("Vender");
             }
+            Console.WriteLine("add_Por recebido: " + add_Por);
             if (string.IsNullOrEmpty(add_Por))
             {
                 add_Por = "Usuário Desconhecido";
@@ -107,8 +109,7 @@ namespace FazendaUrbana.Controllers
                 Quantidade = carrinho.Sum(c => c.Quantidade),
                 ClienteId = 1,
                 Total = carrinho.Sum(c => c.ValorTotal),
-                Transacao_Data = DateTime.Now,
-                Add_Por = add_Por
+                Transacao_Data = DateTime.Now
             };
 
             _vendaRepositorio.RegistrarTransacao(transacao);
@@ -134,7 +135,7 @@ namespace FazendaUrbana.Controllers
                     ValorUnitario = produto.Valor,
                     ValorTotal = item.ValorTotal,
                     DataVenda = DateTime.Now,
-                    Add_Por = transacao.Add_Por,
+                    Add_Por = add_Por,
                     NomeCliente = item.NomeCliente,
                     Transacao = transacao,
                     NomeProduto = item.NomeProduto,

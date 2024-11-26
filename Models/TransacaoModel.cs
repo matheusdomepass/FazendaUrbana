@@ -7,7 +7,6 @@
         public int ClienteId { get; set; }
         public decimal Total { get; set; }
         public DateTime Transacao_Data { get; set; } = DateTime.Now;
-        public string Add_Por { get; set; }
         public List<VendasModel> Vendas { get; set; } = new List<VendasModel>();
     }
 }

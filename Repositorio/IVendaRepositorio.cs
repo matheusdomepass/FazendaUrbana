@@ -8,7 +8,7 @@ namespace FazendaUrbana.Repositorio
         bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao);
         ProdutoModel ListarProdutoPorId(int id);
         void RegistrarTransacao(TransacaoModel transacao);
-        List<VendasModel> BuscarTodos();
+        List<VendasModel> BuscarTodos(bool agrupada = false);
         byte[] GerarComprovanteVenda(TransacaoModel transacao, List<VendasModel> vendas);
     }
 }

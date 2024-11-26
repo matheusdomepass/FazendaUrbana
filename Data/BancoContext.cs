@@ -11,9 +11,15 @@ namespace FazendaUrbana.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<VendasModel>().
-                HasOne(v => v.Produto).WithMany(p => p.Vendas).HasForeignKey( v => v.ProdutoId );
+                HasOne(v => v.Produto)
+                .WithMany(p => p.Vendas)
+                .HasForeignKey( v => v.ProdutoId );
             modelBuilder.Entity<VendasModel>().
-                HasOne(v => v.Transacao).WithMany().HasForeignKey(v => v.TransacaoId).HasConstraintName("FK_Vendas_Transacao").OnDelete(DeleteBehavior.Restrict);
+                HasOne(v => v.Transacao)
+                .WithMany(t => t.Vendas)
+                .HasForeignKey(v => v.TransacaoId)
+                .HasConstraintName("FK_Vendas_Transacao")
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,5 @@
 ﻿@model List<VendasModel>
+
 @{
     ViewData["Title"] = "Listagem de vendas";
 }
@@ -26,12 +27,15 @@
 
     <h1 class="display-4">Listagem de vendas</h1>
 
+    <a href="@Url.Action("Index", "Vendas", new { agrupado = true })">Vendas Agrupadas</a>
+    <a href="@Url.Action("Index", "Vendas", new { agrupado = false })">Vendas Não Agrupadas</a>
+
     <table class="table" id="table-vendas">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome do Produto</th>
-                <th scope="col">NomeCliente</th>
+                <th scope="col">Nome Cliente</th>
                 <th scope="col">Valor Total</th>
                 <th scope="col">Data da Venda</th>
                 <th scope="col">Add_Por</th>
@@ -40,23 +44,23 @@
         <tbody>
             @if (Model != null && Model.Any())
             {
-                foreach (VendasModel vendas in Model)
-                {
-                    <tr>
-                        <th scope="row">@vendas.Id</th>
-                        <td>@vendas.NomeProduto</td>
-                        <td>@vendas.NomeCliente</td>
-                        <td>@vendas.ValorTotal</td>
-                        <td>@vendas.DataVenda</td>
-                        <td>@vendas.Add_Por</td>
-                    </tr>
+                    @foreach (var venda in Model)
+                    {
+                        <tr>
+                            <th scope="row">@venda.Id</th>
+                            <td>@venda.NomeProduto</td>
+                            <td>@venda.NomeCliente</td>
+                            <td>@venda.ValorTotal</td>
+                            <td>@venda.DataVenda</td>
+                            <td>@venda.Add_Por</td>
+                        </tr>
+                    }
                 }
             }
             else
             {
-                <tr class="add"><td valign="top" colspan="5">Nenhuma venda encontrado</td></tr>
+                <tr class="add"><td valign="top" colspan="6">Nenhuma venda encontrada</td></tr>
             }
         </tbody>
     </table>
 </div>
-

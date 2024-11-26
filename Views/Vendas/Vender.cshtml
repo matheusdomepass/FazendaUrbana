@@ -26,13 +26,16 @@
         <label for="quantidade">Quantidade</label>
         <input type="number" name="quantidade" class="form-control" placeholder="Digite a quantidade do produto" required>
     </div>
+    @Html.ValidationMessageFor(x => x.Quantidade)
     <div class="form-group">
         <label for="NomeCliente">Cliente</label>
         <input type="text" name="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" required>
     </div>
+    @Html.ValidationMessageFor(x => x.NomeCliente)
     <div class="form-group">
         <label for="Add_Por">Venda feita por</label>
-        <input type="text" name="add_Por" class="form-control" placeholder="Digite o nome do vendedor" required>
+        <input type="text" name="add_Por" id="add_Por" class="form-control" placeholder="Digite o nome do vendedor" required>
+        @Html.ValidationMessageFor(x => x.Add_Por)
     </div>
 
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
@@ -81,6 +84,7 @@
 
     <form method="post" asp-controller="Vendas" asp-action="FinalizarVenda">
         <button type="submit" class="btn btn-primary">Finalizar Venda</button>
+        <a class="btn btn-secondary btn-block" asp-controller="Vendas" asp-action="Index" role="button">Voltar</a>
     </form>
 }
 else
