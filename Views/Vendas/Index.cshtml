@@ -27,15 +27,13 @@
 
     <h1 class="display-4">Listagem de vendas</h1>
 
-    <a href="@Url.Action("Index", "Vendas", new { agrupado = true })">Vendas Agrupadas</a>
-    <a href="@Url.Action("Index", "Vendas", new { agrupado = false })">Vendas Não Agrupadas</a>
-
     <table class="table" id="table-vendas">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nome do Produto</th>
+                <th scope="col">Transação</th>
                 <th scope="col">Nome Cliente</th>
+                <th scope="col">Nome Produto</th>
                 <th scope="col">Valor Total</th>
                 <th scope="col">Data da Venda</th>
                 <th scope="col">Add_Por</th>
@@ -48,12 +46,15 @@
                     {
                         <tr>
                             <th scope="row">@venda.Id</th>
-                            <td>@venda.NomeProduto</td>
+                            <td>@venda.TransacaoId</td>                            
                             <td>@venda.NomeCliente</td>
+                            <td>@venda.NomeProduto</td>
                             <td>@venda.ValorTotal</td>
                             <td>@venda.DataVenda</td>
                             <td>@venda.Add_Por</td>
+
                         </tr>
+
                     }
                 }
             }

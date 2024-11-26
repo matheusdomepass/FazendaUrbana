@@ -31,14 +31,22 @@
         <label for="NomeCliente">Cliente</label>
         <input type="text" name="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" required>
     </div>
-    @Html.ValidationMessageFor(x => x.NomeCliente)
-    <div class="form-group">
-        <label for="Add_Por">Venda feita por</label>
-        <input type="text" name="add_Por" id="add_Por" class="form-control" placeholder="Digite o nome do vendedor" required>
-        @Html.ValidationMessageFor(x => x.Add_Por)
-    </div>
+    @Html.ValidationMessageFor(x => x.NomeCliente)    
 
     <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["MensagemErro"]
+        </div>
+    }
 </form>
 @if (Model.Carrinho != null && Model.Carrinho.Any())
 {

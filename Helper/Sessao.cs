@@ -31,6 +31,8 @@ namespace FazendaUrbana.Helper
         {
             string valor = JsonConvert.SerializeObject(usuario);
             _contextAccessor.HttpContext.Session.SetString("sessaoUsuarioLogado", valor);
+
+            var usr = _contextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
         }
 
         public void RemoverSessaoUsuario()

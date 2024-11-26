@@ -20,6 +20,10 @@ namespace FazendaUrbana.Data
                 .HasForeignKey(v => v.TransacaoId)
                 .HasConstraintName("FK_Vendas_Transacao")
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<TransacaoModel>()
+                .HasMany(t => t.Vendas)
+                .WithOne(v => v.Transacao)
+        .       HasForeignKey(v => v.TransacaoId);
 
             base.OnModelCreating(modelBuilder);
         }

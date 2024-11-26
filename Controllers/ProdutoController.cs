@@ -1,15 +1,19 @@
 ﻿using FazendaUrbana.Models;
+using FazendaUrbana.Helper;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FazendaUrbana.Controllers
 {
     public class ProdutoController : Controller
     {
         private readonly IProdutoRepositorio _produtoRepositorio;
-        public ProdutoController(IProdutoRepositorio produtoRepositorio)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public ProdutoController(IProdutoRepositorio produtoRepositorio, IHttpContextAccessor contextAccessor)
         {
             _produtoRepositorio = produtoRepositorio;
+            _contextAccessor = contextAccessor;
         }
         public IActionResult Index()
         {
@@ -62,13 +66,24 @@ namespace FazendaUrbana.Controllers
         {
             try
             {
+                string usuarioJson = _contextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
+
+                if (string.IsNullOrEmpty(usuarioJson))
+                {
+                    TempData["MensagemErro"] = "Usuário não está logado";
+                    return RedirectToAction("Index");
+                }
+
+                var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
+
+                produto.Add_Por = usuario.Nome;
+
                 if (ModelState.IsValid)
                 {
                     _produtoRepositorio.Adicionar(produto);
                     TempData["MensagemSucesso"] = "Produto cadastrado com sucesso";
                     return RedirectToAction("Index");
                 }
-
 
                 return View(produto);
 

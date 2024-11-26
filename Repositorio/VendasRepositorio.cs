@@ -28,26 +28,9 @@ namespace FazendaUrbana.Repositorio
             _bancoContext.SaveChanges();
         }
 
-        public List<VendasModel> BuscarTodos(bool agrupada = false)
+        public List<VendasModel> BuscarTodos()
         {
-            if (agrupada)
-            {
-                var vendasAgrupadas = _bancoContext.Vendas
-                    .Include(v => v.Transacao)
-                    .GroupBy(v => v.TransacaoId)
-                    .Select(g => g.FirstOrDefault())
-                    .ToList();
-
-                return vendasAgrupadas;
-            }
-            else
-            {                
-                var todasVendas = _bancoContext.Vendas
-                    .Include(v => v.Transacao)
-                    .ToList();
-
-                return todasVendas;
-            }
+            return _bancoContext.Vendas.ToList();
         }
         public bool Vender(VendasModel vendas, ProdutoModel produto, TransacaoModel transacao)
         {
@@ -108,5 +91,20 @@ namespace FazendaUrbana.Repositorio
                 return ms.ToArray();
             }
         }
+
+        public TransacaoModel ListarTransacaoPorId(int id)
+        {
+            return _bancoContext.Transacoes
+                .Include(t => t.Vendas)
+                .FirstOrDefault(t => t.Id == id);
+        }
+        public List<VendasModel> ListarVendasPorTransacaoId(int transacaoId)
+        {
+            return _bancoContext.Vendas
+                .Where(v => v.TransacaoId == transacaoId)
+                .Include(v => v.Produto)
+                .ToList();
+        }
+
     }
 }

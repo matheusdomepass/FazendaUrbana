@@ -2,6 +2,7 @@
 using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FazendaUrbana.Controllers
 {
@@ -10,19 +11,32 @@ namespace FazendaUrbana.Controllers
         private readonly IProdutoRepositorio _produtoRepositorio;
         private readonly IVendaRepositorio _vendaRepositorio;
         private readonly ICarrinho _carrinho;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public VendasController(IProdutoRepositorio produtoRepositorio, IVendaRepositorio vendaRepositorio, ICarrinho carrinho)
+        public VendasController(IProdutoRepositorio produtoRepositorio, IVendaRepositorio vendaRepositorio, ICarrinho carrinho, IHttpContextAccessor contextAccessor)
         {
             _carrinho = carrinho;
             _produtoRepositorio = produtoRepositorio;
             _vendaRepositorio = vendaRepositorio;
+            _contextAccessor = contextAccessor;
         }
-        public IActionResult Index(bool agrupado = false)
+        public IActionResult Index()
         {
-            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos(agrupado);
+            List<VendasModel> vendas = _vendaRepositorio.BuscarTodos();
 
             return View(vendas);
         }
+        public IActionResult DetalhesVenda(int id)
+        {
+            var transacao = _vendaRepositorio.ListarTransacaoPorId(id);
+            if(transacao == null)
+            {
+                TempData["MensagemErro"] = "Venda não encontrada!";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        
         public IActionResult Vender()
         {
             var produtos = _produtoRepositorio.BuscarTodos();
@@ -43,7 +57,7 @@ namespace FazendaUrbana.Controllers
         }
         
     
-    public IActionResult AdicionarAoCarrinho(int produtoId, int quantidade, string nomeCliente, string add_Por)
+        public IActionResult AdicionarAoCarrinho(int produtoId, int quantidade, string nomeCliente, string add_Por)
         {
             if (quantidade <= 0)
             {
@@ -99,11 +113,16 @@ namespace FazendaUrbana.Controllers
                 TempData["MensagemErro"] = "O carrinho está vazio!";
                 return RedirectToAction("Vender");
             }
-            Console.WriteLine("add_Por recebido: " + add_Por);
-            if (string.IsNullOrEmpty(add_Por))
+            string usuarioJson = _contextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
+
+            if (string.IsNullOrEmpty(usuarioJson))
             {
-                add_Por = "Usuário Desconhecido";
+                TempData["MensagemErro"] = "Usuário não está logado";
+                return RedirectToAction("Index");
             }
+
+            var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
+
             var transacao = new TransacaoModel
             {
                 Quantidade = carrinho.Sum(c => c.Quantidade),
@@ -122,7 +141,6 @@ namespace FazendaUrbana.Controllers
                 if (produto == null || produto.Quantidade < item.Quantidade)
                 {
                     TempData["MensagemErro"] = $"Produto '{item.NomeProduto}' não tem estoque suficiente.";
-                    return RedirectToAction("Vender");
                 }
 
                 produto.Quantidade -= item.Quantidade;
@@ -135,7 +153,7 @@ namespace FazendaUrbana.Controllers
                     ValorUnitario = produto.Valor,
                     ValorTotal = item.ValorTotal,
                     DataVenda = DateTime.Now,
-                    Add_Por = add_Por,
+                    Add_Por = usuario.Nome,
                     NomeCliente = item.NomeCliente,
                     Transacao = transacao,
                     NomeProduto = item.NomeProduto,
