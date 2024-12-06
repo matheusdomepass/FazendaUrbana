@@ -17,5 +17,6 @@ namespace FazendaUrbana.Models
         public string CNPJ { get; set; }
         [Required(ErrorMessage = "Digite o endereço do fornecedor")]
         public EnderecoModel Endereco { get; set; }
+        public string Add_Por { get; set; }
     }
 }

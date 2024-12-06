@@ -73,5 +73,10 @@ namespace FazendaUrbana.Repositorio
 
             return true;
         }
+
+        public FornecedorModel ListarPorCNPJ(string cnpj)
+        {
+            return _bancoContext.Fornecedores.FirstOrDefault(x => x.CNPJ == cnpj);
+        }
     }
 }

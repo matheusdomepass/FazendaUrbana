@@ -9,47 +9,48 @@
     <h1 class="display-4">Editar produto</h1>
 
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <form asp-controller="Produto" asp-action="Alterar" method="post">
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
 
     <input type="hidden" asp-for="Id" />
     <div class="form-group">
-        <label for="nome">Nome</label>
+        <label for="nome">Nome<span class="text-danger">*</span></label>
         <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do produto">
         @Html.ValidationMessageFor(x => x.Nome)
     </div>
     <div class="form-group">
-        <label for="text">Descrição</label>
+        <label for="text">Descrição<span class="text-danger">*</span></label>
         <input type="text" asp-for="Descricao" class="form-control" placeholder="Digite a descrição do produto">
         @Html.ValidationMessageFor(x => x.Descricao)
     </div>
     <div class="form-group">
-        <label for="valor">Valor</label>
-        <input type="text" id="moneyInput" asp-for="Valor" class="form-control" placeholder="R$ 0,00">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#moneyInput").maskMoney({
-                    prefix: 'R$ ',
-                    thousands: '.',
-                    decimal: ',',
-                    allowNegative: false,
-                    affixesStay: true,
-                    precision: 2
-                });
-            });
-        </script>
-
+        <label for="valor">Valor (R$)<span class="text-danger">*</span></label>
+        <input type="text" id="Valor" asp-for="Valor" class="form-control" placeholder="R$ 0,00">
+        
         @Html.ValidationMessageFor(x => x.Valor)
     </div>
     <div class="form-group">
-        <label for="quantidade">Quantidade</label>
+        <label for="quantidade">Quantidade<span class="text-danger">*</span></label>
         <input type="number" asp-for="Quantidade" class="form-control" placeholder="Digite a quantidade do produto">
         @Html.ValidationMessageFor(x => x.Quantidade)
     </div>
     <div class="form-group">
-        <label for="categoria">Categoria</label>
+        <label for="categoria">Categoria<span class="text-danger">*</span></label>
         <select asp-for="Categoria" class="form-control">
             <option value="">Selecione</option>
             <option value="@ProdutoEnum.Vegetais">Vegetais</option>
@@ -58,6 +59,14 @@
         </select>
         @Html.ValidationMessageFor(x => x.Categoria)
     </div>
+    <script>
+        $(document).ready(function () {
+            // Máscara para valor em R$
+            $('#Valor').mask('000.000.000,00', { reverse: true });
+
+        });
+    </script>
+
     <button type="submit" class="btn btn-primary btn-block">Alterar</button>
     <a class="btn btn-secondary btn-block" asp-controller="Produto" asp-action="Index" role="button">Voltar</a>
 

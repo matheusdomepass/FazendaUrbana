@@ -23,7 +23,9 @@ namespace FazendaUrbana.Data
             modelBuilder.Entity<TransacaoModel>()
                 .HasMany(t => t.Vendas)
                 .WithOne(v => v.Transacao)
-        .       HasForeignKey(v => v.TransacaoId);
+                .HasForeignKey(v => v.TransacaoId);
+
+
 
             base.OnModelCreating(modelBuilder);
         }

@@ -35,6 +35,7 @@
                 <th scope="col">Celular</th>
                 <th scope="col">CNPJ</th>
                 <th scope="col">Endereço</th>
+                <th scope="col">Add_Por</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -58,6 +59,7 @@
                             @fornecedor.Endereco?.Estado,
                             @fornecedor.Endereco?.CEP
                         </td>
+                        <td>@fornecedor.Add_Por</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a role="button" class="btn btn-primary" asp-route-id="@fornecedor.Id" asp-controller="Fornecedor" asp-action="Editar">Editar</a>

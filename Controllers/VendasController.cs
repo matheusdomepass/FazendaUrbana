@@ -20,21 +20,11 @@ namespace FazendaUrbana.Controllers
             _vendaRepositorio = vendaRepositorio;
             _contextAccessor = contextAccessor;
         }
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
-            List<VendasModel> vendas = _vendaRepositorio.ListarVendasPorTransacaoId();
+            var vendas = _vendaRepositorio.ListarVendasPorTransacaoId(id);
 
             return View(vendas);
-        }
-        public IActionResult DetalhesVenda(int id)
-        {
-            var transacao = _vendaRepositorio.ListarTransacaoPorId(id);
-            if(transacao == null)
-            {
-                TempData["MensagemErro"] = "Venda não encontrada!";
-                return RedirectToAction("Index");
-            }
-            return View();
         }
         
         public IActionResult Vender()
@@ -94,7 +84,7 @@ namespace FazendaUrbana.Controllers
                     ValorUnitario = produto.Valor,
                     ValorTotal = quantidade * produto.Valor,
                     Add_Por = add_Por,
-                    NomeCliente = nomeCliente
+                    NomeCliente = nomeCliente,
                 });
             }
 
@@ -131,7 +121,6 @@ namespace FazendaUrbana.Controllers
                 Transacao_Data = DateTime.Now
             };
 
-            _vendaRepositorio.RegistrarTransacao(transacao);
 
             var vendas = new List<VendasModel>();
 
@@ -148,7 +137,6 @@ namespace FazendaUrbana.Controllers
 
                 var venda = new VendasModel
                 {
-                    Id = transacao.Id,
                     ProdutoId = item.ProdutoId,
                     Quantidade = item.Quantidade,
                     ValorUnitario = produto.Valor,
@@ -156,9 +144,8 @@ namespace FazendaUrbana.Controllers
                     DataVenda = DateTime.Now,
                     Add_Por = usuario.Nome,
                     NomeCliente = item.NomeCliente,
-                    Transacao = transacao,
-                    NomeProduto = item.NomeProduto,
-                    TransacaoId = transacao.Id
+                    TransacaoId = transacao.Id,
+                    NomeProduto = item.NomeProduto
                 };
 
                 var sucesso = _vendaRepositorio.Vender(venda, produto, transacao);

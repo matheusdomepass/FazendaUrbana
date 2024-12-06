@@ -9,6 +9,7 @@ namespace FazendaUrbana.Models
         public string Rua { get; set; }
         [Required(ErrorMessage = "Digite o numero do endereço")]
         public string Numero { get; set; }
+        [Required(ErrorMessage = "Digite o complemento do endereço")]
         public string Complemento { get; set; }
         [Required(ErrorMessage = "Digite o bairro do endereço")]
         public string Bairro { get; set; }

@@ -77,28 +77,21 @@ namespace FazendaUrbana.Controllers
                 var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
 
                 produto.Add_Por = usuario.Nome;
-
-                if (ModelState.IsValid)
+                var produtoExistente = _produtoRepositorio.ListarPorNome(produto.Nome);
+                if (produtoExistente != null)
                 {
-                    var produtoExistente = _produtoRepositorio.ListarPorNome(produto.Nome);
-                    if (produtoExistente != null)
-                    {
-                        TempData["MensagemErro"] = "Produto já está cadastrado";
-                        return View(produto);
-                    }
-
-                    _produtoRepositorio.Adicionar(produto);
-                    TempData["MensagemSucesso"] = "Produto cadastrado com sucesso";
-                    return RedirectToAction("Index");
+                    TempData["MensagemErro"] = "Já existe um produto com este nome!";
+                    return View(produto);
                 }
-
-                return View(produto);
+                _produtoRepositorio.Adicionar(produto);
+                TempData["MensagemSucesso"] = "Produto cadastrado com sucesso";
+                return RedirectToAction("Index");
 
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar o produto, tente novamente, detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
+                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar o produto, tente novamente, detalhe do erro: Campos não preenchidos corretamente";
+                return RedirectToAction("Criar", produto);
             }
 
         }
@@ -107,22 +100,42 @@ namespace FazendaUrbana.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                string usuarioJson = _contextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                if (string.IsNullOrEmpty(usuarioJson))
                 {
-                    _produtoRepositorio.Atualizar(produto);
-                    TempData["MensagemSucesso"] = "Produto alterado com sucesso";
+                    TempData["MensagemErro"] = "Usuário não está logado";
                     return RedirectToAction("Index");
                 }
-                return View("Editar", produto);
+
+                var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
+
+                produto.Add_Por = usuario.Nome;
+
+                var produtoExistente = _produtoRepositorio.ListarPorNome(produto.Nome);
+                if (produtoExistente != null && produtoExistente.Id != produto.Id)
+                {
+                    TempData["MensagemErro"] = "Já existe um produto com este nome!";
+                    return View("Editar", produto);
+                }
+
+                if (string.IsNullOrEmpty(produto.Nome))
+                {
+                    TempData["MensagemErro"] = "Preencha todos os campos obrigatórios";
+                    return View(produto);
+                }
+
+                _produtoRepositorio.Atualizar(produto);
+                TempData["MensagemSucesso"] = "Produto alterado com sucesso";
+                return RedirectToAction("Index");
 
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos alterar o produto, tente novamente, detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
+                TempData["MensagemErro"] = $"Ops, não conseguimos alterar o produto, tente novamente, detalhe do erro: Campos não preenchidos corretamente";
+                return RedirectToAction("Editar", produto);
             }
         }
-        
+
     }
 }
 

@@ -2,6 +2,7 @@
 using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FazendaUrbana.Controllers
 {
@@ -9,9 +10,12 @@ namespace FazendaUrbana.Controllers
     public class ClienteController : Controller
     {
         private readonly IClienteRepositorio _clienteRepositorio;
-        public ClienteController(IClienteRepositorio clienteRepositorio)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ClienteController(IClienteRepositorio clienteRepositorio, IHttpContextAccessor httpContextAccessor)
         {
             _clienteRepositorio = clienteRepositorio;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -63,21 +67,32 @@ namespace FazendaUrbana.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                string usuarioJson = _httpContextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
+
+                if (string.IsNullOrEmpty(usuarioJson))
                 {
-                    _clienteRepositorio.Adicionar(cliente);
-                    TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso";
+                    TempData["MensagemErro"] = "Usuário não está logado";
                     return RedirectToAction("Index");
                 }
 
+                var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
 
-                return View(cliente);
+                cliente.Add_Por = usuario.Nome;
+                var clienteExistente = _clienteRepositorio.ListarPorCPF_CNPJ(cliente.CPF_CNPJ);
+                if (clienteExistente != null)
+                {
+                    TempData["MensagemErro"] = "Já existe um cliente com este documento!";
+                    return View(cliente);
+                }
+                _clienteRepositorio.Adicionar(cliente);
+                TempData["MensagemSucesso"] = "Cliente cadastrado com sucesso";
+                return RedirectToAction("Index");
 
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar o cliente, tente novamente, detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
+                TempData["MensagemErro"] = $"Ops, não conseguimos cadastrar o cliente, tente novamente, detalhe do erro: Campos não preenchidos corretamente ";
+                return RedirectToAction("Criar");
             }
 
         }
@@ -86,8 +101,6 @@ namespace FazendaUrbana.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
                     var clienteExistente = _clienteRepositorio.ListarPorId(cliente.Id);
 
                     if (clienteExistente == null)
@@ -95,6 +108,22 @@ namespace FazendaUrbana.Controllers
                         TempData["MensagemErro"] = "Cliente não encontrado";
                         return RedirectToAction("Index");
                     }
+
+                    var clienteDuplicado = _clienteRepositorio.ListarPorCPF_CNPJ(cliente.CPF_CNPJ);
+                    if (clienteDuplicado != null && clienteDuplicado.Id != cliente.Id)
+                    {
+                        TempData["MensagemErro"] = "Já existe um cliente cadastrado com este CPF/CNPJ.";
+                        return View("Editar", cliente);
+                    }
+                    string usuarioJson = _httpContextAccessor.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                    if (string.IsNullOrEmpty(usuarioJson))
+                    {
+                        TempData["MensagemErro"] = "Usuário não está logado.";
+                        return RedirectToAction("Index");
+                    }
+
+                    var usuario = JsonConvert.DeserializeObject<UsuarioModel>(usuarioJson);
+
                     clienteExistente.Nome = cliente.Nome;
                     clienteExistente.Email = cliente.Email;
                     clienteExistente.Celular = cliente.Celular;
@@ -112,14 +141,13 @@ namespace FazendaUrbana.Controllers
 
                     TempData["MensagemSucesso"] = "Cliente alterado com sucesso";
                     return RedirectToAction("Index");
-                }
-                return View("Editar", cliente);
+                
 
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não conseguimos alterar o cliente, tente novamente, detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
+                TempData["MensagemErro"] = $"Ops, não conseguimos alterar o cliente, tente novamente, detalhe do erro: Campos não preenchidos corretamente";
+                return RedirectToAction("Criar");
             }
         }
     }

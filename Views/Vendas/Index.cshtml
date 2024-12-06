@@ -33,9 +33,10 @@
                 <th scope="col">#</th>
                 <th scope="col">Nome Cliente</th>
                 <th scope="col">Nome Produto</th>
+                <th scope="col">Quantidade</th>
                 <th scope="col">Valor Total</th>
                 <th scope="col">Data da Venda</th>
-                <th scope="col">Add_Por</th>
+                <th scope="col">Venda Feita Por</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +49,7 @@
                             <th scope="row">@transacao.Id</th>                           
                             <td>@venda.NomeCliente</td>
                             <td>@venda.NomeProduto</td>
+                            <td>@venda.Quantidade</td>
                             <td>@venda.ValorTotal</td>
                             <td>@venda.DataVenda</td>
                             <td>@venda.Add_Por</td>

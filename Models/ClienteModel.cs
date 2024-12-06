@@ -17,5 +17,6 @@ namespace FazendaUrbana.Models
         public string CPF_CNPJ { get; set; }   
         [Required(ErrorMessage = "Digite o endereço do cliente")]
         public EnderecoModel Endereco { get; set; }
+        public string Add_Por { get; set; }
     }
 }

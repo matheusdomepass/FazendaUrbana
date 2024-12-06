@@ -2,6 +2,7 @@
 using FazendaUrbana.Models;
 using FazendaUrbana.Repositorio;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FazendaUrbana.Controllers
 {
@@ -9,9 +10,11 @@ namespace FazendaUrbana.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        private readonly IHttpContextAccessor _contextAcessor;
+        public UsuarioController(IUsuarioRepositorio usuarioRepositorio, IHttpContextAccessor contextAcessor)
         {
             _usuarioRepositorio = usuarioRepositorio;
+            _contextAcessor = contextAcessor;
         }
         public IActionResult Index()
         {

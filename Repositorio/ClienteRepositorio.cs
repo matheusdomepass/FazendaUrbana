@@ -73,5 +73,10 @@ namespace FazendaUrbana.Repositorio
 
             return true;
         }
+
+        public ClienteModel ListarPorCPF_CNPJ(string cpf_cnpj)
+        {
+            return _bancoContext.Clientes.FirstOrDefault(x => x.CPF_CNPJ == cpf_cnpj);
+        }
     }
 }

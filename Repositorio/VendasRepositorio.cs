@@ -2,7 +2,6 @@
 using FazendaUrbana.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FazendaUrbana.Repositorio
@@ -22,10 +21,10 @@ namespace FazendaUrbana.Repositorio
         {
             return _bancoContext.Vendas.FirstOrDefault(x => x.Id == id);
         }
-        public void RegistrarTransacao(TransacaoModel transacao)
+        public bool RegistrarTransacao(TransacaoModel transacao)
         {
             _bancoContext.Transacoes.Add(transacao);
-            _bancoContext.SaveChanges();
+            return _bancoContext.SaveChanges() > 0;
         }
 
         public List<VendasModel> BuscarTodos()
@@ -42,9 +41,12 @@ namespace FazendaUrbana.Repositorio
             produto.Quantidade -= vendas.Quantidade;
             _produtorepositorio.Atualizar(produto);
 
-            transacao.Id = 0;
-
-            _bancoContext.Transacoes.Add(transacao);
+            if(transacao.Id == 0)
+            {
+                _bancoContext.Transacoes.Add(transacao);
+                _bancoContext.SaveChanges();
+            }
+            vendas.TransacaoId = transacao.Id;
             _bancoContext.Vendas.Add(vendas);
             _bancoContext.SaveChanges();
 
@@ -68,6 +70,7 @@ namespace FazendaUrbana.Repositorio
                 document.Add(new Paragraph(" "));
 
                 document.Add(new Paragraph("Comprovante de Venda"));
+                document.Add(new Paragraph($"Id: {transacao.Id}"));
                 document.Add(new Paragraph($"Data da Venda: {transacao.Transacao_Data}"));
                 document.Add(new Paragraph($"Nome do Cliente: {vendas.FirstOrDefault()?.NomeCliente}"));                
                 document.Add(new Paragraph(" "));
@@ -98,7 +101,7 @@ namespace FazendaUrbana.Repositorio
                 .Include(t => t.Vendas)
                 .FirstOrDefault(t => t.Id == id);
         }
-        public List<VendasModel> ListarVendasPorTransacaoId()
+        public List<VendasModel> ListarVendasPorTransacaoId(int transacaoId)
         {
             return _bancoContext.Vendas
                 .Include(v => v.Transacao)

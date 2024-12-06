@@ -8,77 +8,100 @@
     <h1 class="display-4">Cadastrar fornecedor</h1>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <form asp-controller="Fornecedor" asp-action="Criar" method="post">
-
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
     <div class="form-group">
-        <label for="nome">Nome</label>
+        <label for="nome">Nome<span class="text-danger">*</span></label>
         <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do fornecedor">
         @Html.ValidationMessageFor(x => x.Nome)
     </div>   
     <div class="form-group">
-        <label for="email">E-mail</label>
+        <label for="email">E-mail<span class="text-danger">*</span></label>
         <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do fornecedor">
         @Html.ValidationMessageFor(x => x.Email)
     </div>
     <div class="form-group">
-        <label for="celular">Celular</label>
-        <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do fornecedor">
+        <label for="celular">Celular<span class="text-danger">*</span></label>
+        <input type="text" asp-for="Celular" id="Celular" class="form-control" placeholder="Digite o celular do fornecedor" minlength="15" maxlength="15">
         @Html.ValidationMessageFor(x => x.Celular)
     </div>  
     <div class="form-group">
-        <label for="CNPJ">CNPJ</label>
-        <input type="number" asp-for="CNPJ" class="form-control" placeholder="Digite o CNPJ do fornecedor">
+        <label for="CNPJ">CNPJ<span class="text-danger">*</span></label>
+        <input type="text" asp-for="CNPJ" id="CNPJ" class="form-control" placeholder="Digite o CNPJ do fornecedor" minlength="18" maxlength="18">
         @Html.ValidationMessageFor(x => x.CNPJ)
     </div>
     <div class="form-group">
-        <label for="Endereco_Rua">Rua</label>
+        <label for="Endereco_Rua">Rua<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Rua" class="form-control" placeholder="Digite o nome da rua do endereço"/>
         <span asp-validation-for="Endereco.Rua" class="text-danger"></span>
         @Html.ValidationMessageFor(x=>x.Endereco.Rua)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Numero">Número</label>
+        <label for="Endereco_Numero">Número<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Numero" class="form-control" placeholder="Digite o numero do endereço"/>
         <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
         @Html.ValidationMessageFor(x=>x.Endereco.Numero)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Complemento">Complemento</label>
+        <label for="Endereco_Complemento">Complemento<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Complemento" class="form-control" placeholder="Digite o complemento do endereço"/>
         @Html.ValidationMessageFor(x => x.Endereco.Complemento)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Bairro">Bairro</label>
+        <label for="Endereco_Bairro">Bairro<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Bairro" class="form-control" placeholder="Digite o bairro do endereço"/>
         <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Bairro)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Cidade">Cidade</label>
+        <label for="Endereco_Cidade">Cidade<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Cidade" class="form-control" placeholder="Digite a cidade do endereço"/>
         <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Cidade)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Estado">Estado</label>
+        <label for="Endereco_Estado">Estado<span class="text-danger">*</span></label>
         <input asp-for="Endereco.Estado" class="form-control" placeholder="Digite o estado do endereço"/>
         <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.Estado)
     </div>
 
     <div class="form-group">
-        <label for="Endereco_Cep">CEP</label>
+        <label for="Endereco_Cep">CEP<span class="text-danger">*</span></label>
         <input asp-for="Endereco.CEP" class="form-control" placeholder="Digite o CEP do endereço"/>
         <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
         @Html.ValidationMessageFor(x => x.Endereco.CEP)
     </div>
+    <script>
+              $(document).ready(function () {
+                  // Máscara para CNPJ
+                  $('#CNPJ').mask('00.000.000/0000-00');
+                  $('#Celular').mask('(00) 00000-0000')
+              });
+    </script>
+
     <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
-    <a class="btn btn-secondary btn-block" asp-controller="Cliente" asp-action="Index" role="button">Voltar</a>
+    <a class="btn btn-secondary btn-block" asp-controller="Fornecedor" asp-action="Index" role="button">Voltar</a>
 </form>
 

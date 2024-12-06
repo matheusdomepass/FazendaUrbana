@@ -7,7 +7,7 @@
 <h2>@ViewData["Title"]</h2>
 <form method="post" asp-controller="Vendas" asp-action="AdicionarAoCarrinho">
     <div class="form-group">
-        <label for="ProdutoId">Produto</label>
+        <label for="ProdutoId">Produto<span class="text-danger">*</span></label>
         <select id="ProdutoId" name="ProdutoId" class="form-control">
             @if (Model.Produtos != null && Model.Produtos.Any())
             {
@@ -23,12 +23,12 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="quantidade">Quantidade</label>
+        <label for="quantidade">Quantidade<span class="text-danger">*</span></label>
         <input type="number" name="quantidade" class="form-control" placeholder="Digite a quantidade do produto" required>
     </div>
     @Html.ValidationMessageFor(x => x.Quantidade)
     <div class="form-group">
-        <label for="NomeCliente">Cliente</label>
+        <label for="NomeCliente">Cliente<span class="text-danger">*</span></label>
         <input type="text" name="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" required>
     </div>
     @Html.ValidationMessageFor(x => x.NomeCliente)    
