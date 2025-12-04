@@ -42,8 +42,6 @@ SQL Server
 
 Mapeamento via Entity Framework Core
 
-Migrações automáticas (caso você esteja usando)
-
 **Como Rodar o Projeto**
 
 Clone este repositório:
